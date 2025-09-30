@@ -168,7 +168,8 @@ namespace SchoolManager
             double average = await Task.Run(() => Student.averageGrade(Students));
             Console.WriteLine($"The student average performance is: {average}");
         }
-
+/* Ajustement des parametres suite à la modification du type de phone
+*/
         private static void addData()
         {
             Receptionist = new Receptionist("Receptionist", "address", "123");

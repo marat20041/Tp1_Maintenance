@@ -7,7 +7,7 @@ namespace SchoolManager
         public string Subject;
         private int income;
         private int balance;
-
+        // Modification du type de phone
         public Teacher(string name, string address, string phoneNum, string subject = "", int income = 25000)
         {
             Name = name;

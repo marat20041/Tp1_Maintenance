@@ -2,11 +2,16 @@
 {
     public class SchoolMember
     {
+        
         public string Name;
         public string Address;
+        
+         // Modification du type de phone
         private string phone;
+        
+       
 
-        public SchoolMember(string name = "", string address = "", string phone ="")
+        public SchoolMember(string name = "", string address = "", string phone = "")
         {
             Name = name;
             Address = address;

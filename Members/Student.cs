@@ -11,7 +11,7 @@ namespace SchoolManager
             get { return grade; }
             set { grade = value; }
         }
-
+        // Modification du type de phone
         public Student(string name = "", string address = "", string phoneNum = "", int grade = 0)
         {
             Name = name;
