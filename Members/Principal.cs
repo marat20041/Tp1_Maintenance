@@ -13,7 +13,7 @@ namespace SchoolManager
             balance = 0;
         }
 
-        public Principal(string name, string address, int phoneNum, int income = 50000)
+        public Principal(string name, string address, string phoneNum, int income = 50000)
         {
             Name = name;
             Address = address;

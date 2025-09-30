@@ -24,7 +24,7 @@ namespace SchoolManager
             SchoolMember member = new SchoolMember();
             member.Name = Util.Console.AskQuestion("Enter name: ");
             member.Address = Util.Console.AskQuestion("Enter address: ");
-            member.Phone = Util.Console.AskQuestionInt("Enter phone number: ");
+            member.Phone = Util.Console.AskQuestion("Enter phone number: ");
 
             return member;
         }
@@ -171,15 +171,15 @@ namespace SchoolManager
 
         private static void addData()
         {
-            Receptionist = new Receptionist("Receptionist", "address", 123);
+            Receptionist = new Receptionist("Receptionist", "address", "123");
             Receptionist.ComplaintRaised += handleComplaintRaised;
 
-            Principal = new Principal("Principal", "address", 123);
+            Principal = new Principal("Principal", "address", "123");
 
             for (int i = 0; i < 10; i++)
             {
-                Students.Add(new Student(i.ToString(), i.ToString(), i, i));
-                Teachers.Add(new Teacher(i.ToString(), i.ToString(), i));
+                Students.Add(new Student(i.ToString(), i.ToString(), i.ToString(), i));
+                Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
             }
         }
 

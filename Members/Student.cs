@@ -12,7 +12,7 @@ namespace SchoolManager
             set { grade = value; }
         }
 
-        public Student(string name = "", string address = "", int phoneNum = 0, int grade = 0)
+        public Student(string name = "", string address = "", string phoneNum = "", int grade = 0)
         {
             Name = name;
             Address = address;
