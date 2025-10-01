@@ -6,11 +6,8 @@ namespace SchoolManager
     public class Student : SchoolMember
     {
         private int grade;
-        public int Grade
-        {
-            get { return grade; }
-            set { grade = value; }
-        }
+        
+
         // Modification du type de phone
         public Student(string name = "", string address = "", string phoneNum = "", int grade = 0)
         {
@@ -19,10 +16,15 @@ namespace SchoolManager
             Phone = phoneNum;
             this.grade = grade;
         }
-
+        public int Grade
+        {
+            get { return grade; }
+            set { grade = value; }
+        }
+        //Modification de l'affichage afin de respecter les conventions en C#
         public void display()
         {
-            Console.WriteLine("Name: {0}, Address: {1}, Phone: {2}, Grade: {3}", Name, Address, Phone, Grade);
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Grade: {Grade}");
         }
 
         public static double averageGrade(List<Student> students)

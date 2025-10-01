@@ -17,10 +17,10 @@ namespace SchoolManager
             this.income = income;
             balance = 0;
         }
-
+        //Modification de l'affichage afin de respecter les conventions en C#
         public void display()
         {
-            Console.WriteLine("Name: {0}, Address: {1}, Phone: {2}, Subject: {3}", Name, Address, Phone, Subject);
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Subject: {Subject}");
         }
 
         public void Pay()
