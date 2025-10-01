@@ -7,7 +7,7 @@ namespace SchoolManager
     public class Program
     {
         //static public List<Student> Students = new List<Student>();
-        static public List<Teacher> Teachers = new List<Teacher>();
+        //static public List<Teacher> Teachers = new List<Teacher>();
         static public Principal Principal = new Principal();
         static public Receptionist Receptionist = new Receptionist();
 
@@ -51,8 +51,10 @@ namespace SchoolManager
         private static void addStudent()
         {
             SchoolMember member = AcceptAttributes();
-            Student newStudent = new Student(member.Name, member.Address, member.Phone);
-            newStudent.Grade = Util.Console.AskQuestionInt("Enter grade: ");
+            int grade = Util.Console.AskQuestionInt("Enter grade: ");
+             Student newStudent = new Student(member.Name, member.Address, member.Phone,grade);
+             
+           
 
            
         }
@@ -63,7 +65,7 @@ namespace SchoolManager
             Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone);
             newTeacher.Subject = Util.Console.AskQuestion("Enter subject: ");
 
-            Teachers.Add(newTeacher);
+          
         }
 
         public static void Add()
@@ -97,7 +99,7 @@ namespace SchoolManager
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
-                    foreach (Teacher teacher in Teachers)
+                    foreach (Teacher teacher in Teacher.Teachers)
                         teacher.display();
                     break;
                 case 3:
@@ -130,7 +132,7 @@ namespace SchoolManager
                 case 2:
                     List<Task> payments = new List<Task>();
 
-                    foreach (Teacher teacher in Teachers)
+                    foreach (Teacher teacher in Teacher.Teachers)
                     {
                         Task payment = new Task(teacher.Pay);
                         payments.Add(payment);
@@ -169,6 +171,7 @@ namespace SchoolManager
             Console.WriteLine($"The student average performance is: {average}");
         }
 /* Ajustement des parametres suite à la modification du type de phone
+- supprimer la boucle for 
 */
         private static void addData()
         {
@@ -177,11 +180,11 @@ namespace SchoolManager
 
             Principal = new Principal("Principal", "address", "123");
 
-            for (int i = 0; i < 10; i++)
+           /* for (int i = 0; i < 10; i++)
             {
-                Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString(), i));
-                Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
-            }
+                Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
+                Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
+            } */
         }
 
         public static async Task Main(string[] args)
