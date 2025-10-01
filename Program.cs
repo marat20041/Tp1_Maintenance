@@ -6,7 +6,7 @@ namespace SchoolManager
 {
     public class Program
     {
-        static public List<Student> Students = new List<Student>();
+        //static public List<Student> Students = new List<Student>();
         static public List<Teacher> Teachers = new List<Teacher>();
         static public Principal Principal = new Principal();
         static public Receptionist Receptionist = new Receptionist();
@@ -54,7 +54,7 @@ namespace SchoolManager
             Student newStudent = new Student(member.Name, member.Address, member.Phone);
             newStudent.Grade = Util.Console.AskQuestionInt("Enter grade: ");
 
-            Students.Add(newStudent);
+           
         }
 
         private static void addTeacher()
@@ -102,7 +102,7 @@ namespace SchoolManager
                     break;
                 case 3:
                     Console.WriteLine("\nThe students are:");
-                    foreach (Student student in Students)
+                    foreach (Student student in Student.Students)
                         student.display();
                     break;
                 case 4:
@@ -165,7 +165,7 @@ namespace SchoolManager
 
         private static async Task showPerformance()
         {
-            double average = await Task.Run(() => Student.averageGrade(Students));
+            double average = await Task.Run(() => Student.averageGrade(Student.Students));
             Console.WriteLine($"The student average performance is: {average}");
         }
 /* Ajustement des parametres suite à la modification du type de phone
@@ -179,7 +179,7 @@ namespace SchoolManager
 
             for (int i = 0; i < 10; i++)
             {
-                Students.Add(new Student(i.ToString(), i.ToString(), i.ToString(), i));
+                Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString(), i));
                 Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
             }
         }

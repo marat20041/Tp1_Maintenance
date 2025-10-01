@@ -2,11 +2,11 @@
 {
     public class SchoolMember
     {
-        
-        public string Name;
-        public string Address;
-        
-         // Modification du type de phone
+        /* 1-Modification du type de phone
+         2 - Ajout des paramètres de recuperation et de modification
+        */
+        public string Name { get; set; }
+        public string Address{ get; set; }
         private string phone;
         
        
