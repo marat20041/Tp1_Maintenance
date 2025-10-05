@@ -52,21 +52,17 @@ namespace SchoolManager
         {
             SchoolMember member = AcceptAttributes();
             int grade = Util.Console.AskQuestionInt("Enter grade: ");
-             Student newStudent = new Student(member.Name, member.Address, member.Phone,grade);
-             
-           
-
-           
+            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);  
         }
 
         private static void addTeacher()
         {
             SchoolMember member = AcceptAttributes();
-            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone);
-            newTeacher.Subject = Util.Console.AskQuestion("Enter subject: ");
-
-          
+            string subject = Util.Console.AskQuestion("Enter subject: ");
+            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone,subject);  
         }
+
+       
 
         public static void Add()
         {
@@ -79,6 +75,7 @@ namespace SchoolManager
                     addTeacher();
                     break;
                 case 3:
+
                     addStudent();
                     break;
                 default:
@@ -105,6 +102,7 @@ namespace SchoolManager
                 case 3:
                     Console.WriteLine("\nThe students are:");
                     foreach (Student student in Student.Students)
+                        
                         student.display();
                     break;
                 case 4:

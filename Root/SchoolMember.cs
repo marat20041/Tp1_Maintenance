@@ -1,4 +1,6 @@
-﻿namespace SchoolManager
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SchoolManager
 {
     public class SchoolMember
     {
@@ -7,21 +9,47 @@
         */
         public string Name { get; set; }
         public string Address{ get; set; }
-        private string phone;
-        
-       
+        private string _phone;
 
         public SchoolMember(string name = "", string address = "", string phone = "")
         {
-            Name = name;
-            Address = address;
-            this.phone = phone;
-        }
 
-        public string Phone
-        {
-            get { return phone; }
-            set { phone = value; }
+            if (string.IsNullOrWhiteSpace(name)||name.All(char.IsDigit))
+            {
+                Name = "";
+            }
+            else
+            {
+                Name = name;
+            }
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                Address = "";
+            }
+            else
+            {
+                Address = address;
+            }
+
+            _phone = phone; 
+
         }
+        public string Phone{ get
+            {
+                return _phone;
+            }
+            set
+            { 
+                if (PhoneVerificator.IsValidPhone(value))
+                {
+                    _phone =value;    
+                }
+                else
+                {
+                    _phone ="";
+                }
+                }
+        }
+        
     }
 }
