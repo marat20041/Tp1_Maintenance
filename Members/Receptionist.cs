@@ -46,7 +46,7 @@ namespace SchoolManager
         {
             Complaint complaint = new Complaint();
             complaint.ComplaintTime = DateTime.Now;
-            complaint.ComplaintRaised = Util.Console.AskQuestion("Please enter your Complaint: ");
+            complaint.ComplaintRaised = Util.ConsoleHelper.AskQuestion("Please enter your Complaint: ");
 
             ComplaintRaised?.Invoke(this, complaint);
         }

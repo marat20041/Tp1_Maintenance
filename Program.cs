@@ -11,30 +11,31 @@ namespace SchoolManager
         static public Principal Principal = new Principal();
         static public Receptionist Receptionist = new Receptionist();
 
-        public static SchoolMember AcceptAttributes()
-        {
-            SchoolMember member = new SchoolMember();
-            member.Name = Util.Console.AskQuestion("Enter name: ");
-            member.Address = Util.Console.AskQuestion("Enter address: ");
-            member.Phone = Util.Console.AskQuestion("Enter phone number: ");
+        /* public static SchoolMember AcceptAttributes()
+         {
+             SchoolMember member = new SchoolMember();
+             member.Name = Util.Console.AskQuestion("Enter name: ");
+             member.Address = Util.Console.AskQuestion("Enter address: ");
+             member.Phone = Util.Console.AskQuestion("Enter phone number: ");
 
-            return member;
-        }
+             return member;
+         }
 
-        private static int acceptChoices()
-        {
-            return Util.Console.AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\nPlease enter the command: ");
-        }
+         private static int acceptChoices()
+         {
+             return ConsoleHelper.AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\nPlease enter the command: ");
+         }
 
-        private static int acceptMemberType()
-        {
-            int x = Util.Console.AskQuestionInt("\n1. Principal\n2. Teacher\n3. Student\n4. Receptionist\nPlease enter the member type: ");
-            return Enum.IsDefined(typeof(SchoolMemberType), x) ? x : -1;
-        }
+         private static int acceptMemberType()
+         {
+             int x = Util.Console.AskQuestionInt("\n1. Principal\n2. Teacher\n3. Student\n4. Receptionist\nPlease enter the member type: ");
+             return Enum.IsDefined(typeof(SchoolMemberType), x) ? x : -1;
+         }
+         */
 
         public static void AddPrincpal()
         {
-            SchoolMember member = AcceptAttributes();
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
             Principal.Name = member.Name;
             Principal.Address = member.Address;
             Principal.Phone = member.Phone;
@@ -42,15 +43,15 @@ namespace SchoolManager
 
         private static void addStudent()
         {
-            SchoolMember member = AcceptAttributes();
-            int grade = Util.Console.AskQuestionInt("Enter grade: ");
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
+            int grade = Util.ConsoleHelper.AskQuestionInt("Enter grade: ");
             Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);
         }
 
         private static void addTeacher()
         {
-            SchoolMember member = AcceptAttributes();
-            string subject = Util.Console.AskQuestion("Enter subject: ");
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
+            string subject = Util.ConsoleHelper.AskQuestion("Enter subject: ");
             Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
         }
 
@@ -59,7 +60,7 @@ namespace SchoolManager
         public static void Add()
         {
             Console.WriteLine("\nPlease note that the Principal/Receptionist details cannot be added or modified now.");
-            int memberType = acceptMemberType();
+            int memberType = Util.ConsoleHelper.AskMemberType();
 
             switch (memberType)
             {
@@ -78,7 +79,7 @@ namespace SchoolManager
 
         private static void display()
         {
-            int memberType = acceptMemberType();
+            int memberType = Util.ConsoleHelper.AskMemberType();
 
             switch (memberType)
             {
@@ -110,7 +111,7 @@ namespace SchoolManager
         public static void Pay()
         {
             Console.WriteLine("\nPlease note that the students cannot be paid.");
-            int memberType = acceptMemberType();
+            int memberType = Util.ConsoleHelper.AskMemberType();
 
             Console.WriteLine("\nPayments in progress...");
 
@@ -191,7 +192,7 @@ namespace SchoolManager
             while (flag)
             {
 
-                int choice = acceptChoices();
+                int choice = Util.ConsoleHelper.AskChoices();
                 switch (choice)
                 {
                     case 1:
