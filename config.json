@@ -1,0 +1,7 @@
+{
+  "_comment": "Configuration pour le Principal de base",
+  "Name": "Mike Smith",
+  "Address": "123 Main St",
+  "Phone": "555-1234",
+  "Income": 50000
+}

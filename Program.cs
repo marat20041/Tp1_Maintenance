@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +10,7 @@ namespace SchoolManager
     {
         //static public List<Student> Students = new List<Student>();
         //static public List<Teacher> Teachers = new List<Teacher>();
-        static public Principal Principal = new Principal();
+        static public Principal Principal;
         static public Receptionist Receptionist = new Receptionist();
 
         enum SchoolMemberType
@@ -43,9 +45,7 @@ namespace SchoolManager
         public static void AddPrincpal()
         {
             SchoolMember member = AcceptAttributes();
-            Principal.Name = member.Name;
-            Principal.Address = member.Address;
-            Principal.Phone = member.Phone;
+            Principal = new Principal(member.Name, member.Address, member.Phone);
         }
 
         private static void addStudent()
@@ -92,18 +92,18 @@ namespace SchoolManager
             {
                 case 1:
                     Console.WriteLine("\nThe Principal's details are:");
-                    Principal.display();
+                    Principal.Display();
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
                     foreach (Teacher teacher in Teacher.Teachers)
-                        teacher.display();
+                        teacher.Display();
                     break;
                 case 3:
                     Console.WriteLine("\nThe students are:");
                     foreach (Student student in Student.Students)
                         
-                        student.display();
+                        student.Display();
                     break;
                 case 4:
                     Console.WriteLine("\nThe Receptionist's details are:");
@@ -176,7 +176,9 @@ namespace SchoolManager
             Receptionist = new Receptionist("Receptionist", "address", "123");
             Receptionist.ComplaintRaised += handleComplaintRaised;
 
-            Principal = new Principal("Principal", "address", "123");
+            var configText = File.ReadAllText("config.json");
+            var config = JsonSerializer.Deserialize<PrincipalConfig>(configText);
+            Principal = new Principal(config.Name, config.Address, config.Phone, config.Income);
 
            /* for (int i = 0; i < 10; i++)
             {

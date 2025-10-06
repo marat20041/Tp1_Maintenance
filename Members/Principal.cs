@@ -4,22 +4,33 @@ namespace SchoolManager
 {
     public class Principal : SchoolMember, IPayroll
     {
-        private int income;
-        private int balance;
+        private const int DefaultIncome = 50000;
 
-        public Principal(int income = 50000)
+
+        private int _income;
+        private int _balance;
+
+        public int Income => _income;
+        public int Balance => _balance;
+
+        public Principal(int income = DefaultIncome])
+            : this("Inconnu", "Inconnu", "000-0000", income)
         {
-            this.income = income;
-            balance = 0;
         }
+
         // Modification du type de phone
-        public Principal(string name, string address, string phone, int income = 50000)
+        public Principal(string name, string address, string phone, int income = DefaultIncome)
         {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name cannot be empty.", nameof(name));
+            if (string.IsNullOrWhiteSpace(address)) throw new ArgumentException("Address cannot be empty.", nameof(address));
+            if (string.IsNullOrWhiteSpace(phone)) throw new ArgumentException("Phone cannot be empty.", nameof(phone));
+            if (income < 0) throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
+
             Name = name;
             Address = address;
             Phone = phone;
-            this.income = income;
-            balance = 0;
+            _income = income;
+            _balance = 0;
         }
 
         public override void Display()
@@ -27,11 +38,11 @@ namespace SchoolManager
             Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
         }
 
-
-
         public void Pay()
         {
-            Util.NetworkDelay.PayEntity("Principal", Name, ref balance, income);
+            Util.NetworkDelay.PayEntity("Principal", Name, ref _balance, _income);
         }
+
+        
     }
 }
