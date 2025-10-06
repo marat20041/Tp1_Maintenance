@@ -22,10 +22,12 @@ namespace SchoolManager
             balance = 0;
         }
 
-        public void display()
+        public override void Display()
         {
-            Console.WriteLine("Name: {0}, Address: {1}, Phone: {2}", Name, Address, Phone);
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
         }
+
+
 
         public void Pay()
         {

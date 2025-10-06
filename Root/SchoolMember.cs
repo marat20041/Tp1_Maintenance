@@ -8,13 +8,13 @@ namespace SchoolManager
          2 - Ajout des paramètres de recuperation et de modification
         */
         public string Name { get; set; }
-        public string Address{ get; set; }
+        public string Address { get; set; }
         private string _phone;
 
         public SchoolMember(string name = "", string address = "", string phone = "")
         {
 
-            if (string.IsNullOrWhiteSpace(name)||name.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(name) || name.All(char.IsDigit))
             {
                 Name = "";
             }
@@ -31,25 +31,35 @@ namespace SchoolManager
                 Address = address;
             }
 
-            _phone = phone; 
+            _phone = phone;
 
         }
-        public string Phone{ get
+        public string Phone
+        {
+            get
             {
                 return _phone;
             }
             set
-            { 
+            {
                 if (PhoneVerificator.IsValidPhone(value))
                 {
-                    _phone =value;    
+                    _phone = value;
                 }
                 else
                 {
-                    _phone ="";
+                    _phone = "";
                 }
-                }
+            }
         }
-        
+
+        public virtual void Display()
+        {
+
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
+
+        }
     }
+
+
 }

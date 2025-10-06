@@ -18,7 +18,7 @@ namespace SchoolManager
         private int balance;
         public event EventHandler<Complaint> ComplaintRaised;
 
-        public Receptionist(int income = 10000) 
+        public Receptionist(int income = 10000)
         {
             this.income = income;
             balance = 0;
@@ -33,11 +33,10 @@ namespace SchoolManager
             balance = 0;
         }
 
-        public void Display()
+        public override void Display()
         {
-            Console.WriteLine("Name: {0}, Address: {1}, Phone: {2}", Name, Address, Phone);
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
         }
-
         public void Pay()
         {
             Util.NetworkDelay.PayEntity("Receptionist", Name, ref balance, income);
