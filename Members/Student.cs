@@ -15,7 +15,7 @@ namespace SchoolManager
         */
         static public List<Student> Students = new List<Student>();
 
-        public  Student(string name, string address, string phone, int grade)
+        public Student(string name, string address, string phone, int grade)
         : base(name, address, phone)
 
         {
@@ -31,21 +31,21 @@ namespace SchoolManager
         //Modification de l'affichage afin de respecter les conventions en C#
         public void display()
         {
-            
+
             Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Grade: {Grade}");
         }
 
-        public static double averageGrade(List<Student> students)
+        public static double AverageGrade(List<Student> students)
         {
-            double avg = 0;
+            double sum = 0;
             foreach (Student student in students)
             {
-                avg += student.Grade;
+                sum += student.Grade;
             }
 
-            return avg / students.Count;
+            return sum / students.Count;
         }
-      
+
     }
-   
+
 }
