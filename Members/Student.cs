@@ -5,24 +5,34 @@ namespace SchoolManager
 {
     public class Student : SchoolMember
     {
-        private int grade;
+        private int _grade = 0;
+
+
+        /*Modification du type de phone
+        - Ajout de "base" qui refere aux variables du parents
+        - Ajout des objets dans la liste à l'appel du constructeur 
+        - Modification de 
+        */
+        static public List<Student> Students = new List<Student>();
+
+        public  Student(string name, string address, string phone, int grade)
+        : base(name, address, phone)
+
+        {
+            Grade = grade;
+
+            Students.Add(this);
+        }
         public int Grade
         {
-            get { return grade; }
-            set { grade = value; }
+            get { return _grade; }
+            set { _grade = value; }
         }
-
-        public Student(string name = "", string address = "", int phoneNum = 0, int grade = 0)
-        {
-            Name = name;
-            Address = address;
-            Phone = phoneNum;
-            this.grade = grade;
-        }
-
+        //Modification de l'affichage afin de respecter les conventions en C#
         public void display()
         {
-            Console.WriteLine("Name: {0}, Address: {1}, Phone: {2}, Grade: {3}", Name, Address, Phone, Grade);
+            
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Grade: {Grade}");
         }
 
         public static double averageGrade(List<Student> students)
@@ -35,5 +45,7 @@ namespace SchoolManager
 
             return avg / students.Count;
         }
+      
     }
+   
 }

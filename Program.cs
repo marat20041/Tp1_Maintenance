@@ -6,8 +6,8 @@ namespace SchoolManager
 {
     public class Program
     {
-        static public List<Student> Students = new List<Student>();
-        static public List<Teacher> Teachers = new List<Teacher>();
+        //static public List<Student> Students = new List<Student>();
+        //static public List<Teacher> Teachers = new List<Teacher>();
         static public Principal Principal = new Principal();
         static public Receptionist Receptionist = new Receptionist();
 
@@ -24,7 +24,7 @@ namespace SchoolManager
             SchoolMember member = new SchoolMember();
             member.Name = Util.Console.AskQuestion("Enter name: ");
             member.Address = Util.Console.AskQuestion("Enter address: ");
-            member.Phone = Util.Console.AskQuestionInt("Enter phone number: ");
+            member.Phone = Util.Console.AskQuestion("Enter phone number: ");
 
             return member;
         }
@@ -51,20 +51,18 @@ namespace SchoolManager
         private static void addStudent()
         {
             SchoolMember member = AcceptAttributes();
-            Student newStudent = new Student(member.Name, member.Address, member.Phone);
-            newStudent.Grade = Util.Console.AskQuestionInt("Enter grade: ");
-
-            Students.Add(newStudent);
+            int grade = Util.Console.AskQuestionInt("Enter grade: ");
+            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);  
         }
 
         private static void addTeacher()
         {
             SchoolMember member = AcceptAttributes();
-            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone);
-            newTeacher.Subject = Util.Console.AskQuestion("Enter subject: ");
-
-            Teachers.Add(newTeacher);
+            string subject = Util.Console.AskQuestion("Enter subject: ");
+            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone,subject);  
         }
+
+       
 
         public static void Add()
         {
@@ -77,6 +75,7 @@ namespace SchoolManager
                     addTeacher();
                     break;
                 case 3:
+
                     addStudent();
                     break;
                 default:
@@ -97,12 +96,13 @@ namespace SchoolManager
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
-                    foreach (Teacher teacher in Teachers)
+                    foreach (Teacher teacher in Teacher.Teachers)
                         teacher.display();
                     break;
                 case 3:
                     Console.WriteLine("\nThe students are:");
-                    foreach (Student student in Students)
+                    foreach (Student student in Student.Students)
+                        
                         student.display();
                     break;
                 case 4:
@@ -130,7 +130,7 @@ namespace SchoolManager
                 case 2:
                     List<Task> payments = new List<Task>();
 
-                    foreach (Teacher teacher in Teachers)
+                    foreach (Teacher teacher in Teacher.Teachers)
                     {
                         Task payment = new Task(teacher.Pay);
                         payments.Add(payment);
@@ -165,22 +165,24 @@ namespace SchoolManager
 
         private static async Task showPerformance()
         {
-            double average = await Task.Run(() => Student.averageGrade(Students));
+            double average = await Task.Run(() => Student.averageGrade(Student.Students));
             Console.WriteLine($"The student average performance is: {average}");
         }
-
+/* Ajustement des parametres suite à la modification du type de phone
+- supprimer la boucle for 
+*/
         private static void addData()
         {
-            Receptionist = new Receptionist("Receptionist", "address", 123);
+            Receptionist = new Receptionist("Receptionist", "address", "123");
             Receptionist.ComplaintRaised += handleComplaintRaised;
 
-            Principal = new Principal("Principal", "address", 123);
+            Principal = new Principal("Principal", "address", "123");
 
-            for (int i = 0; i < 10; i++)
+           /* for (int i = 0; i < 10; i++)
             {
-                Students.Add(new Student(i.ToString(), i.ToString(), i, i));
-                Teachers.Add(new Teacher(i.ToString(), i.ToString(), i));
-            }
+                Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
+                Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
+            } */
         }
 
         public static async Task Main(string[] args)

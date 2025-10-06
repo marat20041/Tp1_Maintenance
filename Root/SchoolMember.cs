@@ -1,22 +1,55 @@
-﻿namespace SchoolManager
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SchoolManager
 {
     public class SchoolMember
     {
-        public string Name;
-        public string Address;
-        private int phone;
+        /* 1-Modification du type de phone
+         2 - Ajout des paramètres de recuperation et de modification
+        */
+        public string Name { get; set; }
+        public string Address{ get; set; }
+        private string _phone;
 
-        public SchoolMember(string name = "", string address = "", int phone = 0)
+        public SchoolMember(string name = "", string address = "", string phone = "")
         {
-            Name = name;
-            Address = address;
-            this.phone = phone;
-        }
 
-        public int Phone
-        {
-            get { return phone; }
-            set { phone = value; }
+            if (string.IsNullOrWhiteSpace(name)||name.All(char.IsDigit))
+            {
+                Name = "";
+            }
+            else
+            {
+                Name = name;
+            }
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                Address = "";
+            }
+            else
+            {
+                Address = address;
+            }
+
+            _phone = phone; 
+
         }
+        public string Phone{ get
+            {
+                return _phone;
+            }
+            set
+            { 
+                if (PhoneVerificator.IsValidPhone(value))
+                {
+                    _phone =value;    
+                }
+                else
+                {
+                    _phone ="";
+                }
+                }
+        }
+        
     }
 }

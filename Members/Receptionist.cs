@@ -23,8 +23,8 @@ namespace SchoolManager
             this.income = income;
             balance = 0;
         }
-
-        public Receptionist(string name, string address, int phoneNum, int income = 10000)
+        // Modification du type de phone
+        public Receptionist(string name, string address, string phoneNum, int income = 10000)
         {
             Name = name;
             Address = address;

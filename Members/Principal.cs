@@ -12,12 +12,12 @@ namespace SchoolManager
             this.income = income;
             balance = 0;
         }
-
-        public Principal(string name, string address, int phoneNum, int income = 50000)
+        // Modification du type de phone
+        public Principal(string name, string address, string phone, int income = 50000)
         {
             Name = name;
             Address = address;
-            Phone = phoneNum;
+            Phone = phone;
             this.income = income;
             balance = 0;
         }
