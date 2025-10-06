@@ -31,7 +31,7 @@ namespace SchoolManager
 
         private static int acceptChoices()
         {
-            return Util.Console.AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\nPlease enter the member type: ");
+            return Util.Console.AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\nPlease enter the command: ");
         }
 
         private static int acceptMemberType()
@@ -52,17 +52,17 @@ namespace SchoolManager
         {
             SchoolMember member = AcceptAttributes();
             int grade = Util.Console.AskQuestionInt("Enter grade: ");
-            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);  
+            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);
         }
 
         private static void addTeacher()
         {
             SchoolMember member = AcceptAttributes();
             string subject = Util.Console.AskQuestion("Enter subject: ");
-            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone,subject);  
+            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
         }
 
-       
+
 
         public static void Add()
         {
@@ -92,18 +92,18 @@ namespace SchoolManager
             {
                 case 1:
                     Console.WriteLine("\nThe Principal's details are:");
-                    Principal.display();
+                    Principal.Display();
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
                     foreach (Teacher teacher in Teacher.Teachers)
-                        teacher.display();
+                        teacher.Display();
                     break;
                 case 3:
                     Console.WriteLine("\nThe students are:");
                     foreach (Student student in Student.Students)
-                        
-                        student.display();
+
+                        student.Display();
                     break;
                 case 4:
                     Console.WriteLine("\nThe Receptionist's details are:");
@@ -168,9 +168,9 @@ namespace SchoolManager
             double average = await Task.Run(() => Student.averageGrade(Student.Students));
             Console.WriteLine($"The student average performance is: {average}");
         }
-/* Ajustement des parametres suite à la modification du type de phone
-- supprimer la boucle for 
-*/
+        /* Ajustement des parametres suite à la modification du type de phone
+        - supprimer la boucle for 
+        */
         private static void addData()
         {
             Receptionist = new Receptionist("Receptionist", "address", "123");
@@ -178,11 +178,11 @@ namespace SchoolManager
 
             Principal = new Principal("Principal", "address", "123");
 
-           /* for (int i = 0; i < 10; i++)
-            {
-                Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
-                Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
-            } */
+            /* for (int i = 0; i < 10; i++)
+             {
+                 Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
+                 Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
+             } */
         }
 
         public static async Task Main(string[] args)
