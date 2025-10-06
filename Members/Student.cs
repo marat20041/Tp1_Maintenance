@@ -15,7 +15,7 @@ namespace SchoolManager
         */
         static public List<Student> Students = new List<Student>();
 
-        public  Student(string name, string address, string phone, int grade)
+        public Student(string name, string address, string phone, int grade)
         : base(name, address, phone)
 
         {
@@ -29,9 +29,10 @@ namespace SchoolManager
             set { _grade = value; }
         }
         //Modification de l'affichage afin de respecter les conventions en C#
-        public void display()
+
+        public override void Display()
         {
-            
+
             Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Grade: {Grade}");
         }
 
@@ -45,7 +46,7 @@ namespace SchoolManager
 
             return avg / students.Count;
         }
-      
+
     }
-   
+
 }

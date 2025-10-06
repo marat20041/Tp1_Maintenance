@@ -5,12 +5,12 @@ namespace SchoolManager
 {
     public class Teacher : SchoolMember, IPayroll
     {
-        
+
         private int _income;
         private int _balance;
         private string _subject;
-       
-        public string Subject 
+
+        public string Subject
         {
             get
             {
@@ -29,7 +29,7 @@ namespace SchoolManager
             }
         }
 
-         
+
 
         /*Modification du type de phone
         - Ajout de "base" qui refere aux variables du parents
@@ -37,18 +37,19 @@ namespace SchoolManager
         */
         static public List<Teacher> Teachers = new List<Teacher>();
 
-        public Teacher(string name, string address, string phone, string subject, int income=25000)
+        public Teacher(string name, string address, string phone, string subject, int income = 25000)
          : base(name, address, phone)
         {
-           
+
             _subject = subject;
             _income = income;
             _balance = 0;
-  
+
             Teachers.Add(this);
         }
         //Modification de l'affichage afin de respecter les conventions en C#
-        public void display()
+
+        public override void Display()
         {
             Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Subject: {Subject}");
         }
