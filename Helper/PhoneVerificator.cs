@@ -5,13 +5,18 @@ class PhoneVerificator
 {
    public static bool IsValidPhone(string phone)
     {
+        /*- ce programme verifie 
+        - les valeurs entrées 
+        - la longueur des chiffres 
+        - verifie les caractères autorisés
+        */
         if (string.IsNullOrWhiteSpace(phone))
         {
             Console.WriteLine(" The number is empty");
             return false;
         }
 
-        // Nettoyage
+       
         string cleaned = phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
 
         if (!cleaned.All(char.IsDigit))
@@ -26,7 +31,7 @@ class PhoneVerificator
             return false;
         }
 
-        // Regex (facultatif)
+       
         string pattern = @"^\+?[0-9\s\-\(\)]{10,20}$";
         if (!Regex.IsMatch(phone, pattern))
         {
