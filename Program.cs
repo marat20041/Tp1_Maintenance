@@ -11,14 +11,6 @@ namespace SchoolManager
         static public Principal Principal = new Principal();
         static public Receptionist Receptionist = new Receptionist();
 
-        enum SchoolMemberType
-        {
-            typePrincipal = 1,
-            typeTeacher,
-            typeStudent,
-            typeReceptionist
-        }
-
         public static SchoolMember AcceptAttributes()
         {
             SchoolMember member = new SchoolMember();
