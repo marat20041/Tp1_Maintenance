@@ -14,6 +14,7 @@ namespace SchoolManager
 
     public class Receptionist : SchoolMember, IPayroll
     {
+        static public List<Receptionist> Receptionists = new List<Receptionist>();
         private int income;
         private int balance;
         public event EventHandler<Complaint> ComplaintRaised;
@@ -24,13 +25,14 @@ namespace SchoolManager
             balance = 0;
         }
         // Modification du type de phone
-        public Receptionist(string name, string address, string phoneNum, int income = 10000)
+        public Receptionist(string name, string address, string phoneNum, int income)
         {
             Name = name;
             Address = address;
             Phone = phoneNum;
             this.income = income;
             balance = 0;
+            Receptionists.Add(this);
         }
 
         public override void Display()
