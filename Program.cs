@@ -6,108 +6,93 @@ namespace SchoolManager
 {
     public class Program
     {
-        //static public List<Student> Students = new List<Student>();
-        //static public List<Teacher> Teachers = new List<Teacher>();
-        static public Principal Principal = new Principal();
-        static public Receptionist Receptionist = new Receptionist();
+        static public Receptionist Receptionist;
 
-        enum SchoolMemberType
+
+        public static void AddPrincipal()
         {
-            typePrincipal = 1,
-            typeTeacher,
-            typeStudent,
-            typeReceptionist
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
+            int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
+            Principal principal = new Principal(member.Name, member.Address, member.Phone, income);
+
         }
 
-        public static SchoolMember AcceptAttributes()
+        public static void AddReceptionist()
         {
-            SchoolMember member = new SchoolMember();
-            member.Name = Util.Console.AskQuestion("Enter name: ");
-            member.Address = Util.Console.AskQuestion("Enter address: ");
-            member.Phone = Util.Console.AskQuestion("Enter phone number: ");
-
-            return member;
-        }
-
-        private static int acceptChoices()
-        {
-            return Util.Console.AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\nPlease enter the member type: ");
-        }
-
-        private static int acceptMemberType()
-        {
-            int x = Util.Console.AskQuestionInt("\n1. Principal\n2. Teacher\n3. Student\n4. Receptionist\nPlease enter the member type: ");
-            return Enum.IsDefined(typeof(SchoolMemberType), x) ? x : -1;
-        }
-
-        public static void AddPrincpal()
-        {
-            SchoolMember member = AcceptAttributes();
-            Principal.Name = member.Name;
-            Principal.Address = member.Address;
-            Principal.Phone = member.Phone;
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
+            int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
+            Receptionist receptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
         }
 
         private static void addStudent()
         {
-            SchoolMember member = AcceptAttributes();
-            int grade = Util.Console.AskQuestionInt("Enter grade: ");
-            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);  
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
+            int grade = Util.ConsoleHelper.AskQuestionInt("Enter grade: ");
+            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);
         }
 
         private static void addTeacher()
         {
-            SchoolMember member = AcceptAttributes();
-            string subject = Util.Console.AskQuestion("Enter subject: ");
-            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone,subject);  
+            SchoolMember member = Util.ConsoleHelper.AskAttributes();
+            string subject = Util.ConsoleHelper.AskQuestion("Enter subject: ");
+            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
         }
 
-       
+
 
         public static void Add()
         {
             Console.WriteLine("\nPlease note that the Principal/Receptionist details cannot be added or modified now.");
-            int memberType = acceptMemberType();
+            int memberType = Util.ConsoleHelper.AskMemberType();
 
             switch (memberType)
             {
+                case 1:
+
+                    AddPrincipal();
+                    break;
                 case 2:
                     addTeacher();
                     break;
                 case 3:
-
                     addStudent();
+                    break;
+                case 4:
+                    AddReceptionist();
                     break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
+                    Console.WriteLine(memberType);
                     break;
             }
         }
 
         private static void display()
         {
-            int memberType = acceptMemberType();
+            int memberType = Util.ConsoleHelper.AskMemberType();
 
             switch (memberType)
             {
                 case 1:
                     Console.WriteLine("\nThe Principal's details are:");
-                    Principal.display();
+                    foreach (Principal principal in Principal.Principals)
+                        principal.Display();
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
                     foreach (Teacher teacher in Teacher.Teachers)
-                        teacher.display();
+                        teacher.Display();
                     break;
                 case 3:
                     Console.WriteLine("\nThe students are:");
                     foreach (Student student in Student.Students)
-                        
-                        student.display();
+
+                        student.Display();
                     break;
                 case 4:
                     Console.WriteLine("\nThe Receptionist's details are:");
-                    Receptionist.Display();
+                    foreach (Receptionist receptionist in Receptionist.Receptionists)
+                        receptionist.Display();
                     break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
@@ -118,18 +103,25 @@ namespace SchoolManager
         public static void Pay()
         {
             Console.WriteLine("\nPlease note that the students cannot be paid.");
-            int memberType = acceptMemberType();
+            int memberType = Util.ConsoleHelper.AskMemberType();
 
             Console.WriteLine("\nPayments in progress...");
 
+            List<Task> payments = new List<Task>();
             switch (memberType)
             {
+
                 case 1:
-                    Principal.Pay();
+                    foreach (Principal principal in Principal.Principals)
+                    {
+                        Task payment = new Task(principal.Pay);
+                        payments.Add(payment);
+                        payment.Start();
+                    }
+
+                    Task.WaitAll(payments.ToArray());
                     break;
                 case 2:
-                    List<Task> payments = new List<Task>();
-
                     foreach (Teacher teacher in Teacher.Teachers)
                     {
                         Task payment = new Task(teacher.Pay);
@@ -141,7 +133,14 @@ namespace SchoolManager
 
                     break;
                 case 4:
-                    Receptionist.Pay();
+                    foreach (Receptionist receptionist in Receptionist.Receptionists)
+                    {
+                        Task payment = new Task(receptionist.Pay);
+                        payments.Add(payment);
+                        payment.Start();
+                    }
+
+                    Task.WaitAll(payments.ToArray());
                     break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
@@ -168,27 +167,31 @@ namespace SchoolManager
             double average = await Task.Run(() => Student.averageGrade(Student.Students));
             Console.WriteLine($"The student average performance is: {average}");
         }
-/* Ajustement des parametres suite à la modification du type de phone
-- supprimer la boucle for 
-*/
-        private static void addData()
-        {
-            Receptionist = new Receptionist("Receptionist", "address", "123");
-            Receptionist.ComplaintRaised += handleComplaintRaised;
+        /* Ajustement des parametres suite à la modification du type de phone
+        - supprimer la boucle for   qui donne des valeurs inutiles
+        */
 
-            Principal = new Principal("Principal", "address", "123");
 
-           /* for (int i = 0; i < 10; i++)
-            {
-                Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
-                Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
-            } */
-        }
+
+        /*  private static void addData()
+          {
+              Receptionist = new Receptionist("Receptionist", "address", "123");
+              Receptionist.ComplaintRaised += handleComplaintRaised;
+
+              Principal = new Principal("Principal", "address", "123");
+
+               for (int i = 0; i < 10; i++)
+               {
+                   Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
+                   Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
+               } 
+
+          }*/
 
         public static async Task Main(string[] args)
         {
             // Just for manual testing purposes.
-            addData();
+            //  addData();
 
             Console.WriteLine("-------------- Welcome ---------------\n");
 
@@ -199,7 +202,7 @@ namespace SchoolManager
             while (flag)
             {
 
-                int choice = acceptChoices();
+                int choice = Util.ConsoleHelper.AskChoices();
                 switch (choice)
                 {
                     case 1:
