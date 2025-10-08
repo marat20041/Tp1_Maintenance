@@ -67,3 +67,18 @@ TestResult.xml
 
 # Publish
 publish/
+
+# Ignore build output folders for all projects
+bin/
+obj/
+
+# If you have nested projects, ignore those too
+**/bin/
+**/obj/
+
+# Optional: VS and user files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
