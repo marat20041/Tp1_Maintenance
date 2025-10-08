@@ -42,7 +42,7 @@ namespace Util
 
         public static int AskChoices()
         {
-            return AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\nPlease enter the command: ");
+            return AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\n6. Remove last action\nPlease enter the command: ");
         }
     }
 }
