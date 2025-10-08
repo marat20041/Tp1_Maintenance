@@ -6,6 +6,7 @@ namespace SchoolManager
 {
     public class Program
     {
+        static public UndoManager Undo = new UndoManager();
         static public Receptionist Receptionist;
 
 
@@ -13,15 +14,20 @@ namespace SchoolManager
         {
             SchoolMember member = Util.ConsoleHelper.AskAttributes();
             int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
-            Principal principal = new Principal(member.Name, member.Address, member.Phone, income);
-
+            Principal newPrincipal = new Principal(member.Name, member.Address, member.Phone, income);
+            Undo.Push(
+                    name: $"Undo: add student '{newPrincipal.Name}'",
+                    undo: () => Principal.Principals.Remove(newPrincipal));
         }
 
         public static void AddReceptionist()
         {
             SchoolMember member = Util.ConsoleHelper.AskAttributes();
             int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
-            Receptionist receptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
+            Receptionist newReceptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
+            Undo.Push(
+                    name: $"Undo: add student '{newReceptionist.Name}'",
+                    undo: () => Receptionist.Receptionists.Remove(newReceptionist));
         }
 
         private static void addStudent()
@@ -29,6 +35,9 @@ namespace SchoolManager
             SchoolMember member = Util.ConsoleHelper.AskAttributes();
             int grade = Util.ConsoleHelper.AskQuestionInt("Enter grade: ");
             Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);
+            Undo.Push(
+                    name: $"Undo: add student '{newStudent.Name}'",
+                    undo: () => Student.Students.Remove(newStudent));
         }
 
         private static void addTeacher()
@@ -36,9 +45,39 @@ namespace SchoolManager
             SchoolMember member = Util.ConsoleHelper.AskAttributes();
             string subject = Util.ConsoleHelper.AskQuestion("Enter subject: ");
             Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
+            Undo.Push(
+                    name: $"Undo: add student '{newTeacher.Name}'",
+                    undo: () => Teacher.Teachers.Remove(newTeacher));
+        }
+        private static void UndoLast()
+        {
+            Console.WriteLine(Undo.Undo());
         }
 
+        public static void Remove()
+        {
+            int memberType = Util.ConsoleHelper.AskMemberType();
+            switch (memberType)
+            {
+                case 1:
+                    UndoLast();
+                    break;
+                case 2:
+                    UndoLast();
+                    break;
 
+                case 3:
+                    UndoLast();
+                    break;
+                case 4:
+                    UndoLast();
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid input. Terminating operation.");
+                    break;
+            }
+        }
 
         public static void Add()
         {
@@ -86,7 +125,6 @@ namespace SchoolManager
                 case 3:
                     Console.WriteLine("\nThe students are:");
                     foreach (Student student in Student.Students)
-
                         student.Display();
                     break;
                 case 4:
@@ -219,6 +257,9 @@ namespace SchoolManager
                         break;
                     case 5:
                         await showPerformance();
+                        break;
+                    case 6:
+                        Remove();
                         break;
                     default:
                         flag = false;
