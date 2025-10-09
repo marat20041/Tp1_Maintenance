@@ -13,7 +13,7 @@ namespace SchoolManager
         public int Income => _income;
         public int Balance => _balance;
 
-        public Principal(int income = DefaultIncome])
+        public Principal(int income = DefaultIncome)
             : this("Inconnu", "Inconnu", "000-0000", income)
         {
         }
@@ -35,7 +35,7 @@ namespace SchoolManager
 
         public override void Display()
         {
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Income: {income}");
         }
 
         public void Pay()
