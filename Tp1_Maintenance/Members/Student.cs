@@ -5,7 +5,8 @@ namespace SchoolManager
 {
     public class Student : SchoolMember
     {
-        private int _grade = 0;
+        //private int _grade = 0;
+        public int Grade { get; set; }
 
 
         /*Modification du type de phone
@@ -13,21 +14,23 @@ namespace SchoolManager
         - Ajout des objets dans la liste à l'appel du constructeur 
         - Modification de 
         */
-        static public List<Student> Students = new List<Student>();
 
+        static public List<Student> Students = new List<Student>();
         public Student(string name, string address, string phone, int grade)
         : base(name, address, phone)
 
         {
-            Grade = grade;
+            if (grade < 0)
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Grade = grade;
+            }
 
-            Students.Add(this);
         }
-        public int Grade
-        {
-            get { return _grade; }
-            set { _grade = value; }
-        }
+
         //Modification de l'affichage afin de respecter les conventions en C#
 
         public override void Display()
