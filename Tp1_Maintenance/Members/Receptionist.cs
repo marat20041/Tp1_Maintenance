@@ -9,6 +9,9 @@ namespace SchoolManager
         private int _income;
         private int _balance;
 
+        public int Income => _income;
+        public int Balance => _balance;
+
         public event EventHandler<ComplaintEventArgs>? ComplaintRaised;
 
         public Receptionist(string name, string address, string phoneNum, int income = 10000) : base(name, address, phoneNum)

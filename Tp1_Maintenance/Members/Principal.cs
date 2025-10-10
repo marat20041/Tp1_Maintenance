@@ -19,11 +19,19 @@ namespace SchoolManager
         }
 
         public Principal(string name, string address, string phone, int income = DefaultIncome)
+        : base(name, address, phone)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name cannot be empty.", nameof(name));
-            if (string.IsNullOrWhiteSpace(address)) throw new ArgumentException("Address cannot be empty.", nameof(address));
-            if (string.IsNullOrWhiteSpace(phone)) throw new ArgumentException("Phone cannot be empty.", nameof(phone));
-            if (income < 0) throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
+            if (string.IsNullOrWhiteSpace(name) || name.All(char.IsDigit))
+                throw new ArgumentException("Name cannot be empty.", nameof(name));
+
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentException("Address cannot be empty.", nameof(address));
+
+            if (string.IsNullOrWhiteSpace(phone))
+                throw new ArgumentException("Phone cannot be empty.", nameof(phone));
+
+            if (income < 0)
+                throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
 
             Name = name;
             Address = address;
@@ -39,9 +47,15 @@ namespace SchoolManager
 
         public void Pay()
         {
+            if (_income <= 0)
+                throw new InvalidOperationException("Income must be greater than zero to process payment.");
+
+            if (_balance < 0)
+                throw new InvalidOperationException("Balance cannot be negative.");
+
             Util.NetworkDelay.PayEntity("Principal", Name, ref _balance, _income);
         }
 
-        
+
     }
 }
