@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,18 +7,8 @@ namespace SchoolManager
     public class Program
     {
         static public UndoManager Undo = new UndoManager();
-        static public Receptionist Receptionist;
-
-
-        public static void AddPrincipal()
-        {
-            SchoolMember member = Util.ConsoleHelper.AskAttributes();
-            int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
-            Principal newPrincipal = new Principal(member.Name, member.Address, member.Phone, income);
-            Undo.Push(
-                    name: $"Undo: add student '{newPrincipal.Name}'",
-                    undo: () => Principal.Principals.Remove(newPrincipal));
-        }
+        static public Receptionist? Receptionist;
+        static public Principal? Principal;
 
         public static void AddReceptionist()
         {
@@ -87,8 +77,7 @@ namespace SchoolManager
             switch (memberType)
             {
                 case 1:
-
-                    AddPrincipal();
+                    Console.WriteLine("The Principal details cannot be added or modified now.");
                     break;
                 case 2:
                     addTeacher();
@@ -114,8 +103,7 @@ namespace SchoolManager
             {
                 case 1:
                     Console.WriteLine("\nThe Principal's details are:");
-                    foreach (Principal principal in Principal.Principals)
-                        principal.Display();
+                    Principal?.Display();
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
@@ -150,9 +138,9 @@ namespace SchoolManager
             {
 
                 case 1:
-                    foreach (Principal principal in Principal.Principals)
+                    if (Principal != null)
                     {
-                        Task payment = new Task(principal.Pay);
+                        Task payment = new Task(Principal.Pay);
                         payments.Add(payment);
                         payment.Start();
                     }
@@ -190,7 +178,7 @@ namespace SchoolManager
 
         public static void RaiseComplaint()
         {
-            Receptionist.HandleComplaint();
+            Receptionist?.HandleComplaint();
         }
 
         private static void handleComplaintRaised(object sender, Complaint complaint)
@@ -209,32 +197,27 @@ namespace SchoolManager
         - supprimer la boucle for   qui donne des valeurs inutiles
         */
 
+        private static void addData()
+        {
+            Receptionist = new Receptionist("Receptionist", "address", "123", 10000);
 
-
-        /*  private static void addData()
-          {
-              Receptionist = new Receptionist("Receptionist", "address", "123");
-              Receptionist.ComplaintRaised += handleComplaintRaised;
-
-              Principal = new Principal("Principal", "address", "123");
-
-               for (int i = 0; i < 10; i++)
-               {
-                   Student.Students.Add(new Student(i.ToString(), i.ToString(), i.ToString()));
-                   Teacher.Teachers.Add(new Teacher(i.ToString(), i.ToString(), i.ToString()));
-               } 
-
-          }*/
+            try
+            {
+                var configText = System.IO.File.ReadAllText("config.json");
+                var config = System.Text.Json.JsonSerializer.Deserialize<PrincipalConfig>(configText);
+                if (config != null)
+                    Principal = new Principal(config.Name, config.Address, config.Phone, config.Income);
+            }
+            catch (System.Exception)
+            {
+            }
+        }
 
         public static async Task Main(string[] args)
         {
-            // Just for manual testing purposes.
-            //  addData();
+            addData();
 
             Console.WriteLine("-------------- Welcome ---------------\n");
-
-            //Console.WriteLine("Please enter the Princpals information.");
-            //AddPrincpal();
 
             bool flag = true;
             while (flag)

@@ -35,7 +35,7 @@ namespace SchoolManager
 
         public override void Display()
         {
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Income: {income}");
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Income: {_income}");
         }
 
         public void Pay()
