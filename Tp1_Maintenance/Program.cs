@@ -244,6 +244,9 @@ namespace SchoolManager
                     case 6:
                         Remove();
                         break;
+                    case 7:
+                        flag = false;
+                        break;
                     default:
                         flag = false;
                         break;

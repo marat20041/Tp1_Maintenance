@@ -18,7 +18,6 @@ namespace SchoolManager
         {
         }
 
-        // Modification du type de phone
         public Principal(string name, string address, string phone, int income = DefaultIncome)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name cannot be empty.", nameof(name));
