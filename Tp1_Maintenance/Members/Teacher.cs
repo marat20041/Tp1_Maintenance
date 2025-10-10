@@ -10,6 +10,8 @@ namespace SchoolManager
         private int _balance;
         private string _subject;
 
+
+
         public string Subject
         {
             get
@@ -19,13 +21,9 @@ namespace SchoolManager
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                {
-                    _subject = value;
-                }
-                else
-                {
-                    _subject = "";
-                }
+                    throw new ArgumentException("Subject cannot be empty.", nameof(value));
+
+                _subject = value;
             }
         }
 
@@ -35,28 +33,50 @@ namespace SchoolManager
         - Ajout de "base" qui refere aux variables du parents
         - Ajout des objets dans la liste à l'appel du constructeur 
         */
-        static public List<Teacher> Teachers = new List<Teacher>();
+        private static readonly List<Teacher> _teachers = new List<Teacher>();
+        public static IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
+
 
         public Teacher(string name, string address, string phone, string subject, int income = 25000)
          : base(name, address, phone)
         {
 
-            _subject = subject;
+            if (string.IsNullOrWhiteSpace(subject))
+                throw new ArgumentException("Subject cannot be empty.", nameof(subject));
+
+            if (income < 0)
+                throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
+
             _income = income;
+            _subject = subject;
             _balance = 0;
 
-            Teachers.Add(this);
+            _teachers.Add(this);
         }
-        //Modification de l'affichage afin de respecter les conventions en C#
 
-        public override void Display()
+
+        public static void RemoveTeacher(Teacher teacher)
         {
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Subject: {Subject}");
+            _teachers.Remove(teacher);
+        }
+
+        public override string Display()
+        {
+            return $"Name: {Name ?? ""}, Address: {Address ?? ""}, Phone: {Phone ?? ""}, Subject: {Subject ?? ""}";
+
         }
 
         public void Pay()
         {
-            Util.NetworkDelay.PayEntity("Teacher", Name, ref _balance, _income);
+            try
+            {
+                Util.NetworkDelay.PayEntity("Teacher", Name, ref _balance, _income);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Payment failed for {Name}: {ex.Message}");
+            }
+
         }
     }
 }

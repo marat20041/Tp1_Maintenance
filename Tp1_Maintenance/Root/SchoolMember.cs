@@ -53,11 +53,9 @@ namespace SchoolManager
             }
         }
 
-        public virtual void Display()
+        public virtual string Display()
         {
-
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
-
+            return $"Name: {Name}, Address: {Address}, Phone: {Phone}";
         }
     }
 

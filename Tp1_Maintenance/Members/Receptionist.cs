@@ -33,20 +33,21 @@ namespace SchoolManager
             _balance = 0;
         }
 
-        public override void Display()
+        public override string Display()
         {
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Income: {_income}");
+            return $"Name: {Name}, Address: {Address}, Phone: {Phone}, Income: {_income}";
         }
 
         public void Pay()
-        {
-            if (_income <= 0)
-                throw new InvalidOperationException("Income must be greater than zero to process payment.");
-
-            if (_balance < 0)
-                throw new InvalidOperationException("Balance cannot be negative.");
-            
-            Util.NetworkDelay.PayEntity("Receptionist", Name, ref _balance, _income);
+        {   
+            try
+            {
+                Util.NetworkDelay.PayEntity("Receptionist", Name, ref _balance, _income);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Payment failed for {Name}: {ex.Message}");
+            }
         }
 
         public void HandleComplaint(string complaintText)

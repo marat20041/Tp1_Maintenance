@@ -6,45 +6,43 @@ namespace SchoolManager
     public class Student : SchoolMember
     {
         private int _grade = 0;
-
-
-        /*Modification du type de phone
-        - Ajout de "base" qui refere aux variables du parents
-        - Ajout des objets dans la liste à l'appel du constructeur 
-        - Modification de 
-        */
-        static public List<Student> Students = new List<Student>();
+        private static readonly List<Student> _students = new List<Student>();
+        public static IReadOnlyList<Student> Students => _students.AsReadOnly();
 
         public Student(string name, string address, string phone, int grade)
-        : base(name, address, phone)
+            : base(name, address, phone)
 
         {
-            Grade = grade;
+            if (grade < 0 || grade > 100)
+                throw new ArgumentOutOfRangeException(nameof(grade), "Grade must be between 0 and 100");
 
-            Students.Add(this);
+            Grade = grade;
+            _students.Add(this);
         }
         public int Grade
         {
-            get { return _grade; }
-            set { _grade = value; }
-        }
-        //Modification de l'affichage afin de respecter les conventions en C#
-
-        public override void Display()
-        {
-
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Grade: {Grade}");
+            get => _grade;
+            set => _grade = value;
         }
 
-        public static double averageGrade(List<Student> students)
+        public static void RemoveStudent(Student student)
         {
-            double avg = 0;
-            foreach (Student student in students)
-            {
-                avg += student.Grade;
-            }
+            _students.Remove(student);
+        }
 
-            return avg / students.Count;
+        public override string Display()
+        {
+            string studentInfo = $"Name: {Name ?? ""}, Address: {Address ?? ""}, Phone: {Phone ?? ""}, Grade: {_grade}";
+
+            return studentInfo;
+        }
+
+        public static double AverageGrade() => AverageGrade(Students.ToList());
+
+        public static double AverageGrade(IEnumerable<Student> students)
+        {
+            if (students == null || !students.Any()) return 0;
+            return students.Average(s => s.Grade);
         }
 
     }

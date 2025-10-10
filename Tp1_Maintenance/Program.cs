@@ -28,7 +28,7 @@ namespace SchoolManager
             Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);
             Undo.Push(
                     name: $"Undo: add student '{newStudent.Name}'",
-                    undo: () => Student.Students.Remove(newStudent));
+                    undo: () => Student.RemoveStudent(newStudent));
         }
 
         private static void addTeacher()
@@ -38,7 +38,7 @@ namespace SchoolManager
             Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
             Undo.Push(
                     name: $"Undo: add student '{newTeacher.Name}'",
-                    undo: () => Teacher.Teachers.Remove(newTeacher));
+                    undo: () => Teacher.RemoveTeacher(newTeacher));
         }
         private static void UndoLast()
         {
@@ -101,7 +101,7 @@ namespace SchoolManager
             {
                 case 1:
                     Console.WriteLine("\nThe Principal's details are:");
-                    Principal?.Display();
+                    Console.WriteLine(Principal?.Display());
                     break;
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
@@ -111,11 +111,11 @@ namespace SchoolManager
                 case 3:
                     Console.WriteLine("\nThe students are:");
                     foreach (Student student in Student.Students)
-                        student.Display();
+                        Console.WriteLine(student.Display());
                     break;
                 case 4:
                     Console.WriteLine("\nThe Receptionist's details are:");
-                    Receptionist?.Display();
+                    Console.WriteLine(Receptionist?.Display());
                     break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
@@ -188,7 +188,7 @@ namespace SchoolManager
 
         private static async Task showPerformance()
         {
-            double average = await Task.Run(() => Student.averageGrade(Student.Students));
+            double average = await Task.Run(() => Student.AverageGrade(Student.Students));
             Console.WriteLine($"The student average performance is: {average}");
         }
         /* Ajustement des parametres suite à la modification du type de phone
