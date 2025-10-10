@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ComplaintEventArgsNamespace;
 
 namespace SchoolManager
 {
@@ -10,15 +11,15 @@ namespace SchoolManager
         static public Receptionist? Receptionist;
         static public Principal? Principal;
 
-        public static void AddReceptionist()
-        {
-            SchoolMember member = Util.ConsoleHelper.AskAttributes();
-            int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
-            Receptionist newReceptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
-            Undo.Push(
-                    name: $"Undo: add student '{newReceptionist.Name}'",
-                    undo: () => Receptionist.Receptionists.Remove(newReceptionist));
-        }
+        // public static void AddReceptionist()
+        // {
+        //     SchoolMember member = Util.ConsoleHelper.AskAttributes();
+        //     int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
+        //     Receptionist newReceptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
+        //     Undo.Push(
+        //             name: $"Undo: add student '{newReceptionist.Name}'",
+        //             undo: () => Receptionist.Receptionists.Remove(newReceptionist));
+        // }
 
         private static void addStudent()
         {
@@ -85,9 +86,6 @@ namespace SchoolManager
                 case 3:
                     addStudent();
                     break;
-                case 4:
-                    AddReceptionist();
-                    break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
                     Console.WriteLine(memberType);
@@ -117,8 +115,7 @@ namespace SchoolManager
                     break;
                 case 4:
                     Console.WriteLine("\nThe Receptionist's details are:");
-                    foreach (Receptionist receptionist in Receptionist.Receptionists)
-                        receptionist.Display();
+                    Receptionist?.Display();
                     break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
@@ -159,9 +156,9 @@ namespace SchoolManager
 
                     break;
                 case 4:
-                    foreach (Receptionist receptionist in Receptionist.Receptionists)
+                    if (Receptionist != null)
                     {
-                        Task payment = new Task(receptionist.Pay);
+                        Task payment = new Task(Receptionist.Pay);
                         payments.Add(payment);
                         payment.Start();
                     }
@@ -178,10 +175,11 @@ namespace SchoolManager
 
         public static void RaiseComplaint()
         {
-            Receptionist?.HandleComplaint();
+            string complaintText = Util.ConsoleHelper.AskQuestion("Please enter your complaint: ");
+            Receptionist?.HandleComplaint(complaintText);
         }
 
-        private static void handleComplaintRaised(object sender, Complaint complaint)
+        private static void handleComplaintRaised(object? sender, ComplaintEventArgs complaint)
         {
             Console.WriteLine("\nThis is a confirmation that we received your complaint. The details are as follows:");
             Console.WriteLine($"---------\nComplaint Time: {complaint.ComplaintTime.ToLongDateString()}, {complaint.ComplaintTime.ToLongTimeString()}");
@@ -198,20 +196,43 @@ namespace SchoolManager
         */
 
         private static void addData()
-        {
-            Receptionist = new Receptionist("Receptionist", "address", "123", 10000);
+{
+    try
+    {
+        var configText = System.IO.File.ReadAllText("config.json");
+        var configs = System.Text.Json.JsonSerializer.Deserialize<List<PrincipalConfig>>(configText);
 
-            try
+        if (configs == null)
+        {
+            Console.WriteLine("No configuration data found.");
+            return;
+        }
+
+        foreach (var config in configs)
+        {
+            switch (config.Role)
             {
-                var configText = System.IO.File.ReadAllText("config.json");
-                var config = System.Text.Json.JsonSerializer.Deserialize<PrincipalConfig>(configText);
-                if (config != null)
+                case "Principal":
                     Principal = new Principal(config.Name, config.Address, config.Phone, config.Income);
-            }
-            catch (System.Exception)
-            {
+                    break;
+
+                case "Receptionist":
+                    Receptionist = new Receptionist(config.Name, config.Address, config.Phone, config.Income);
+                    Receptionist.ComplaintRaised += handleComplaintRaised;
+                    break;
+
+                default:
+                    Console.WriteLine($"Unknown role: {config.Role}");
+                    break;
             }
         }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error reading configuration: {ex.Message}");
+    }
+}
+
 
         public static async Task Main(string[] args)
         {

@@ -1,56 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ComplaintEventArgsNamespace;
 
 namespace SchoolManager
 {
-    public class Complaint : EventArgs
-    {
-        public DateTime ComplaintTime { get; set; }
-        public string ComplaintRaised { get; set; }
-    }
 
     public class Receptionist : SchoolMember, IPayroll
     {
-        static public List<Receptionist> Receptionists = new List<Receptionist>();
-        private int income;
-        private int balance;
-        public event EventHandler<Complaint> ComplaintRaised;
+        private int _income;
+        private int _balance;
 
-        public Receptionist(int income = 10000)
+        public event EventHandler<ComplaintEventArgs>? ComplaintRaised;
+
+        public Receptionist(string name, string address, string phoneNum, int income = 10000)
         {
-            this.income = income;
-            balance = 0;
-        }
-        // Modification du type de phone
-        public Receptionist(string name, string address, string phoneNum, int income)
-        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+
             Name = name;
             Address = address;
             Phone = phoneNum;
-            this.income = income;
-            balance = 0;
-            Receptionists.Add(this);
+            _income = income;
+            _balance = 0;
         }
 
         public override void Display()
         {
-            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}");
+            Console.WriteLine($"Name: {Name}, Address: {Address}, Phone: {Phone}, Income: {_income}");
         }
+
         public void Pay()
         {
-            Util.NetworkDelay.PayEntity("Receptionist", Name, ref balance, income);
+            Util.NetworkDelay.PayEntity("Receptionist", Name, ref _balance, _income);
         }
 
-        public void HandleComplaint()
+        public void HandleComplaint(string complaintText)
         {
-            Complaint complaint = new Complaint();
-            complaint.ComplaintTime = DateTime.Now;
-            complaint.ComplaintRaised = Util.ConsoleHelper.AskQuestion("Please enter your Complaint: ");
+            if (string.IsNullOrWhiteSpace(complaintText))
+                throw new ArgumentException("Complaint cannot be empty", nameof(complaintText));
 
-            ComplaintRaised?.Invoke(this, complaint);
+            var args = new ComplaintEventArgs(complaintText);
+            OnComplaintRaised(args);
+        }
+
+        protected virtual void OnComplaintRaised(ComplaintEventArgs e)
+        {
+            ComplaintRaised?.Invoke(this, e);
         }
     }
 }

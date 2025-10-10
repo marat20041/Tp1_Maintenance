@@ -1,7 +1,18 @@
-{
-  "_comment": "Configuration pour le Principal de base",
-  "Name": "Mike Smith",
-  "Address": "123 Main St",
-  "Phone": "555-1234",
-  "Income": 50000
-}
+[
+  {
+    "_comment": "Configuration pour le Principal de base",
+    "Role": "Principal",
+    "Name": "Mike Smith",
+    "Address": "123 Main St",
+    "Phone": "111-555-1234",
+    "Income": 50000
+  },
+  {
+    "_comment": "Configuration pour le receptionniste",
+    "Role": "Receptionist",
+    "Name": "Janna DuCouteau",
+    "Address": "12 Ravage Street",
+    "Phone": "111-555-0191",
+    "Income": 30000
+  }
+]
