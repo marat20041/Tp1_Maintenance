@@ -1,10 +1,10 @@
 # TP1-Maintenance-Logiciel
 ## Role dans l'équipe
-| Role    | Nom, Prénom |
-| -------- | ------- |
-| Team-Lead  | N'Goran, Beau-Séjour Djatti    |
-| QA | Werbrouck, Nicolas     |
-| Programmeur    | Sargsyan, Marat    |
+| Role    | Nom, Prénom | Tache Effectuer  |
+| -------- | ------- | ------- | 
+| Team-Lead  | N'Goran, Beau-Séjour Djatti    | |
+| QA | Werbrouck, Nicolas     | |
+| Programmeur    | Sargsyan, Marat    | |
 
 Chaque membre de l'équipe on un role attribué, toutefois, il n'est pas imporbable qu'il ait eu de l'entraide entre les membres de l'équipe
 

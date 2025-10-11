@@ -77,6 +77,9 @@ namespace SchoolManager
                 case 3:
                     AddStudent();
                     break;
+                case 4:
+                    Console.WriteLine("The Receptionist details cannot be added or modified now.");
+                    break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
                     Console.WriteLine(memberType);
