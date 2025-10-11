@@ -5,39 +5,27 @@ using System.Text.Json;
 class Payed
 {
 
-    public static void Principals()
+    public static void PayPrincipal(Principal Principal)
     {
-
         List<Task> payments = new List<Task>();
-        foreach (Principal principal in Principal.Principals)
+        if (Principal != null)
         {
-            Task payment = new Task(principal.Pay);
+            Task payment = new Task(Principal.Pay);
             payments.Add(payment);
             payment.Start();
-            int amountPaid = principal.Income;
-             UndoManager.PushPayment(
-                payement: amountPaid,
-                undo: () => Principal.Principals.Remove(principal));
         }
-
         Task.WaitAll(payments.ToArray());
         CompletedPayment();
     }
 
-    public static void Receptionists()
+    public static void PayReceptionist(Receptionist Receptionist)
     {
         List<Task> payments = new List<Task>();
-        foreach (Receptionist receptionist in Receptionist.Receptionists)
+        if (Receptionist != null)
         {
-            Task payment = new Task(receptionist.Pay);
+            Task payment = new Task(Receptionist.Pay);
             payments.Add(payment);
             payment.Start();
-            int amountPaid = receptionist.Income;
-
-            UndoManager.PushPayment(
-                payement: amountPaid,
-                undo: () => Receptionist.Receptionists.Remove(receptionist));
-            
         }
 
         Task.WaitAll(payments.ToArray());
@@ -49,19 +37,19 @@ class Payed
         Console.WriteLine(ReferenceText.Get("StudentPayed"));
     }
 
-    public static void Teachers()
+    public static void PayAllTeachers()
     {
         List<Task> payments = new List<Task>();
-        foreach (Teacher teacher in Teacher.Teachers)
+        foreach (Teacher teacher in Teacher.Teachers.ToList())
         {
             Task payment = new Task(teacher.Pay);
             payments.Add(payment);
             payment.Start();
-               int amountPaidTeacher = teacher.Income;
+            int amountPaidTeacher = teacher.Income;
 
             UndoManager.PushPayment(
                 payement: amountPaidTeacher,
-                undo: () => Teacher.Teachers.Remove(teacher));
+                undo: () => Teacher.RemoveTeacher(teacher));
         }
 
         Task.WaitAll(payments.ToArray());
@@ -70,6 +58,6 @@ class Payed
 
     public static void CompletedPayment()
     {
-        Console.WriteLine(ReferenceText.Get("ConfirmPay"));
+        Console.WriteLine(ReferenceText.Get("ConfirmPayed"));
     }
 }

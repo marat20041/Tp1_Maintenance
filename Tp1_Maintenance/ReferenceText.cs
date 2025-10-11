@@ -7,12 +7,22 @@ public static class ReferenceText
 {
     public static Dictionary<string, string> _texts;
 
-    static ReferenceText()
+   static ReferenceText()
+{
+    string json = File.ReadAllText("ReferenceText.json");
+    var dict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json)
+               ?? new Dictionary<string, JsonElement>();
+
+    _texts = new Dictionary<string, string>();
+    foreach (var kv in dict)
     {
-        // Charger le fichier JSON
-        string json = File.ReadAllText("ReferenceText.json");
-        _texts = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        if (kv.Value.ValueKind == JsonValueKind.String)
+        {
+            _texts[kv.Key] = kv.Value.GetString()!;
+        }
     }
+}
+
 
     public static string Get(string key)
     {
@@ -21,7 +31,7 @@ public static class ReferenceText
         else
             return $"[Message not found: {key}]";
     }
-    
+
     public static string Format(string key, Dictionary<string, string> values)
     {
         string text = Get(key);

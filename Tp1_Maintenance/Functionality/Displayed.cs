@@ -3,33 +3,31 @@ using System.Text.Json;
 
 class Displayed
 {
-    public static void Principals()
+    public static void Principals(Principal Principal)
     {
-        Console.WriteLine(ReferenceText.Get("ListPrincipal"));
-        foreach (Principal principal in Principal.Principals)
-            principal.Display();
+        Console.WriteLine("\nThe Principal's details are:");
+                    Console.WriteLine(Principal?.Display());
     }
 
-    public static void Receptionists()
+    public static void Receptionists(Receptionist Receptionist)
     {
-        Console.WriteLine(ReferenceText.Get("ListReceptionist"));
-        foreach (Receptionist receptionist in Receptionist.Receptionists)
-            receptionist.Display();
+        Console.WriteLine("\nThe Receptionist's details are:");
+                    Console.WriteLine(Receptionist?.Display());
 
     }
 
     public static void Students()
     {
-        Console.WriteLine(ReferenceText.Get("Liststudent"));
+        Console.WriteLine(ReferenceText.Get("ListStudents"));
         foreach (Student student in Student.Students)
-            student.Display();
+            Console.WriteLine(student.Display());
     }
 
     public static void Teachers()
     {
-        Console.WriteLine(ReferenceText.Get("ListTeacher"));
+        Console.WriteLine(ReferenceText.Get("ListTeachers"));
         foreach (Teacher teacher in Teacher.Teachers)
-            teacher.Display();
+            Console.WriteLine(teacher.Display());
     }
 
     public static void InvalidInput()

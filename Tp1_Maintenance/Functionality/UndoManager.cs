@@ -16,7 +16,7 @@ public static class UndoManager
     {
         if (_history.Count == 0)
         {
-            return "No action to undo";
+            return ReferenceText.Get("NoActionToUndo");
         }
         else
         {
@@ -39,7 +39,7 @@ public static class UndoManager
     {
         if (_information.Count == 0)
         {
-            Console.WriteLine("No action to undo ");
+            Console.WriteLine(ReferenceText.Get("NoActionToUndo"));
             return 0;
 
         }
@@ -47,10 +47,14 @@ public static class UndoManager
         {
             UndoPay entry = _information.Pop();
             entry.Undo();
-            Console.WriteLine($"Last pay : {entry.Payment}");
+            Console.WriteLine(ReferenceText.Format("LastPay", new Dictionary<string, string>
+    {
+        { "amount", entry.Payment.ToString() }
+    }));
             return entry.Payment;
         }
-       
+
+
 
     }
 }

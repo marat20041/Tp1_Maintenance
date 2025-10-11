@@ -9,7 +9,7 @@ namespace ComplaintEventArgsNamespace
         public ComplaintEventArgs(string complaintRaised)
         {
             if (string.IsNullOrWhiteSpace(complaintRaised))
-                throw new ArgumentException("Complaint cannot be empty", nameof(complaintRaised));
+                throw new ArgumentException(ReferenceText.Get("EmptyComplaint"), nameof(complaintRaised));
 
             ComplaintRaised = complaintRaised;
             ComplaintTime = DateTime.Now;

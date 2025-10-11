@@ -13,9 +13,9 @@ namespace SchoolManager
 
         {
             if (grade < 0 || grade > 100)
-                throw new ArgumentOutOfRangeException(nameof(grade), "Grade must be between 0 and 100");
+                throw new ArgumentOutOfRangeException(nameof(grade), ReferenceText.Get("InvalidGrade"));
 
-            Grade = grade;
+            _grade = grade;
             _students.Add(this);
         }
         public int Grade

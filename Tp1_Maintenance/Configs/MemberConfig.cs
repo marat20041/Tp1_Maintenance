@@ -1,7 +1,5 @@
 public class MemberConfig
 {
-
-
     public required string Role { get; init; }
     public required string Name { get; init; }
     public required string Address { get; init; }

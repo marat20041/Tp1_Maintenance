@@ -3,32 +3,29 @@ using System.Text.RegularExpressions;
 
 public class PhoneVerificator
 {
-    private static HelperConfig? _config;
-
-    public static void LoadConfig(HelperConfig config)
-    {
-        _config = config;
-    }
-
-    public static bool IsValidPhone(string phone)
+    public static bool IsValidPhone(string phone, HelperConfig config)
     {
         if (string.IsNullOrWhiteSpace(phone))
         {
-            Console.WriteLine("The number is empty");
+            Console.WriteLine(ReferenceText.Get("EmptyPhone"));
             return false;
         }
 
-        if (_config == null) throw new Exception("Config not loaded");
+        if (config == null) throw new Exception(ReferenceText.Get("ConfigNotLoaded"));
 
         string cleaned = phone.Replace("-", "").Replace(" ", "");
 
-        if (cleaned.Length < _config.MinPhoneLength || cleaned.Length > _config.MaxPhoneLength)
+        if (cleaned.Length < config.MinPhoneLength || cleaned.Length > config.MaxPhoneLength)
         {
-            Console.WriteLine($"The number must be between {_config.MinPhoneLength} and {_config.MaxPhoneLength} digits");
+            Console.WriteLine(ReferenceText.Format("InvalidPhoneLength", new Dictionary<string, string>
+            {
+                { "min", "10" },
+                { "max", "15" }
+            }));
             return false;
         }
 
-        string pattern = _config.PhonePattern;
+        string pattern = config.PhonePattern;
         if (!Regex.IsMatch(phone, pattern))
         {
             Console.WriteLine(ReferenceText.Get("PhoneChar"));

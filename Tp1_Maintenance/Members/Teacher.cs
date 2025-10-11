@@ -8,11 +8,8 @@ namespace SchoolManager
 
         public int Income { get; set; }
         private int _balance;
-        private string _subject;
-
         private int _income;
-
-
+        private string _subject;
 
         public string Subject
         {
@@ -23,8 +20,7 @@ namespace SchoolManager
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Subject cannot be empty.", nameof(value));
-
+                    throw new ArgumentException(ReferenceText.Get("InvalidSubject"), nameof(value));
                 _subject = value;
             }
         }
@@ -43,10 +39,10 @@ namespace SchoolManager
         {
 
             if (string.IsNullOrWhiteSpace(subject))
-                throw new ArgumentException("Subject cannot be empty.", nameof(subject));
+                throw new ArgumentException(ReferenceText.Get("InvalidSubject"), nameof(subject));
 
             if (income < 0)
-                throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(income), ReferenceText.Get("NegativeIncome"));
 
             _income = income;
             _subject = subject;
@@ -75,7 +71,11 @@ namespace SchoolManager
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Payment failed for {Name}: {ex.Message}");
+                Console.WriteLine(ReferenceText.Format("PaymentFailed", new Dictionary<string, string>
+                    {
+                        { "Name", Name },
+                        { "Error", ex.Message }
+                    }));
             }
 
         }

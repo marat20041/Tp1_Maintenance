@@ -1,20 +1,10 @@
 using SchoolManager;
 public class Complaints
 {
-    public static void RaiseComplaint()
+    public static void RaiseComplaint(Receptionist Receptionist)
     {
-        // Receptionists.HandleComplaint();
-        if (Receptionist.Receptionists.Count == 0)
-        {
-
-            Receptionist receptionistExple = new Receptionist("Alice", "123 Rue", "0123456789", 12000);
-            Receptionist.Receptionists.Add(receptionistExple);
-        }
-
-        Receptionist receptionist = Receptionist.Receptionists[0];
-        receptionist.ComplaintRaised += handleComplaintRaised;
-        receptionist.HandleComplaint();
-
+        string complaintText = Util.ConsoleHelper.AskQuestion("Please enter your complaint: ");
+        Receptionist?.HandleComplaint(complaintText);
     }
 
     private static void handleComplaintRaised(object? sender, Complaint e)

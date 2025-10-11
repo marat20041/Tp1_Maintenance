@@ -21,18 +21,17 @@ namespace SchoolManager
 
         public Receptionist(string name, string address, string phoneNum, int income) : base(name, address, phoneNum)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty", nameof(name));
-
+             if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(ReferenceText.Get("EmptyName"), nameof(name));
 
             if (string.IsNullOrWhiteSpace(address))
-                throw new ArgumentException("Address cannot be empty", nameof(address));
+                throw new ArgumentException(ReferenceText.Get("EmptyAddress"), nameof(address));
 
             if (string.IsNullOrWhiteSpace(phoneNum))
-                throw new ArgumentException("Phone number cannot be empty", nameof(phoneNum));
+                throw new ArgumentException(ReferenceText.Get("EmptyPhone"), nameof(phoneNum));
 
             if (income < 0)
-                throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(income), ReferenceText.Get("NegativeIncome"));
 
             _income = income;
             _balance = 0;
@@ -51,17 +50,21 @@ namespace SchoolManager
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Payment failed for {Name}: {ex.Message}");
+                Console.WriteLine(ReferenceText.Format("PaymentFailed", new Dictionary<string, string>
+                {
+                    { "name", Name },
+                    { "error", ex.Message }
+                }));
             }
         }
 
         public void HandleComplaint(string complaintText)
         {
             if (string.IsNullOrWhiteSpace(complaintText))
-                throw new ArgumentException("Complaint cannot be empty", nameof(complaintText));
+                throw new ArgumentException(ReferenceText.Get("EmptyComplaint"), nameof(complaintText));
 
             if (complaintText.Length > 1000)
-                throw new ArgumentException("Complaint is too long", nameof(complaintText));
+                throw new ArgumentException(ReferenceText.Get("LongComplaint"), nameof(complaintText));
 
             var args = new ComplaintEventArgs(complaintText);
             OnComplaintRaised(args);
@@ -75,7 +78,10 @@ namespace SchoolManager
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while raising complaint event: {ex.Message}");
+                Console.WriteLine(ReferenceText.Format("ComplaintEventError", new Dictionary<string, string>
+                {
+                    { "error", ex.Message }
+                }));
             }
         }
     }

@@ -3,17 +3,15 @@ using SchoolManager;
 using System.Text.Json;
 namespace Util
 
-
 {
-
     public static class ConsoleHelper
     {
         public static SchoolMember AskAttributes()
         {
             SchoolMember member = new SchoolMember();
-            member.Name = AskQuestion(ReferenceText.Get("Name"));
-            member.Address = AskQuestion(ReferenceText.Get("Address"));
-            member.Phone = AskQuestion(ReferenceText.Get("Phone"));
+            member.Name = AskQuestion(ReferenceText.Get("AskName"));
+            member.Address = AskQuestion(ReferenceText.Get("AskAddress"));
+            member.Phone = AskQuestion(ReferenceText.Get("AskPhone"));
 
             return member;
         }
@@ -44,7 +42,7 @@ namespace Util
 
         public static int AskChoices()
         {
-            return AskQuestionInt("\n1. Add\n2. Display\n3. Pay\n4. Raise Complaint\n5. Student Performance\n6. Remove last action\n7. Leave the program\nPlease enter the command: ");
+            return AskQuestionInt(ReferenceText.Get("MainMenu"));
         }
     }
 }

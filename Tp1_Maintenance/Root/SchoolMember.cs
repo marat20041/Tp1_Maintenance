@@ -42,7 +42,8 @@ namespace SchoolManager
             }
             set
             {
-                if (PhoneVerificator.IsValidPhone(value))
+                var config = ConfigLoader.LoadConfig("networkConfig.json");
+                if (PhoneVerificator.IsValidPhone(value, config))
                 {
                     _phone = value;
                 }

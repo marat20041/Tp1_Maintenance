@@ -31,17 +31,17 @@ namespace SchoolManager
             : base(name, address, phone)
         {
             if (string.IsNullOrWhiteSpace(name) || name.All(char.IsDigit))
-                throw new ArgumentException("Name cannot be empty.", nameof(name));
+                throw new ArgumentException(ReferenceText.Get("EmptyName"), nameof(name));
 
             if (string.IsNullOrWhiteSpace(address))
-                throw new ArgumentException("Address cannot be empty.", nameof(address));
+                throw new ArgumentException(ReferenceText.Get("EmptyAddress"), nameof(address));
 
             if (string.IsNullOrWhiteSpace(phone))
-                throw new ArgumentException("Phone cannot be empty.", nameof(phone));
+                throw new ArgumentException(ReferenceText.Get("EmptyPhone"), nameof(phone));
 
             _income = income ?? _config?.DefaultIncome ?? 50000;
             if (_income < 0)
-                throw new ArgumentOutOfRangeException(nameof(income), "Income must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(income), ReferenceText.Get("NegativeIncome"));
 
             _balance = 0;
         }
@@ -59,7 +59,11 @@ namespace SchoolManager
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Payment failed for {Name}: {ex.Message}");
+                Console.WriteLine(ReferenceText.Format("PaymentFailed", new Dictionary<string, string>
+                {
+                    { "name", Name },
+                    { "error", ex.Message }
+                }));
             }
         }
     }

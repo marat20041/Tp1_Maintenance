@@ -5,8 +5,8 @@ namespace Util
 {
     public class NetworkDelay
     {
-         private static HelperConfig? _config;
-        
+        private static HelperConfig? _config;
+
         public static void LoadConfig(string path)
         {
             _config = ConfigLoader.LoadConfig(path);
@@ -14,7 +14,7 @@ namespace Util
 
         static public void SimulateNetworkDelay()
         {
-            if (_config == null) throw new Exception("Config not loaded");
+            if (_config == null) throw new Exception(ReferenceText.Get("ConfigNotLoaded"));
             Random rnd = new Random();
             Thread.Sleep(rnd.Next(_config.MinDelay, _config.MaxDelay));
         }
@@ -23,7 +23,12 @@ namespace Util
         {
             SimulateNetworkDelay();
             balance += income;
-            Console.WriteLine($"Paid {entity}: {name}. Total balance: {balance}");
+            Console.WriteLine(ReferenceText.Format("EntityPaid", new Dictionary<string, string>
+        {
+            { "entity", entity },
+            { "name", name },
+            { "balance", balance.ToString() }
+        }));
         }
     }
 }

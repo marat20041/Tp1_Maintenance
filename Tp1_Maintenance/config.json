@@ -113,14 +113,6 @@
     "Address": "71 Stone Way",
     "Phone": "319-472-8391",
     "Grade": 91
-  },
-  {
-    "_comment": "Configuration for the hard-coded values in the application",
-    "MinDelay": 1000,
-    "MaxDelay": 5000,
-    "MinPhoneLength": 10,
-    "MaxPhoneLength": 15,
-    "PhonePattern": "^\\+?[0-9\\s\\-\\(\\)]+$",
-    "DefaultIncome": 50000
   }
 ]
+    
