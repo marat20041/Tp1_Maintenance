@@ -55,4 +55,29 @@ _Mettre la liste des changements effectuer ainsi que de la justification de ces 
     Permet la prise en charge des numéros débutant par 0.
     Facilite la vérification et la validation des numéro téléphone 
   
-2- 
+2- Class Teacher,Student,Receptionist,Principal,SchoolMember
+  * Refactorisation des différentes classes ()/Codes smells
+    Implémentation correct de l'Héritage par l'ajout de ":base(variables héritées du parent)"
+    Respect des conventions d'écriture en C#: (Débuter les variables publiques par des Majuscules,Donner des noms significatifs et simples ,Écriture des variables privées avec "_")
+    
+  Cette reécriture du code vise le respect des conventions d'écriture en C#, facilite la lecture, la compréhension, et la modification du code.
+  
+  * Programmation défensive:
+   Dans le but d'assurer la sécurité et le bon fonctionnement du programme, la programmation défensive vise à baliser les informations pendant l'implémentation et à établir les conditions de fonctionnement de        l'application.
+
+3- Class Programm
+   * Refactorisation et codes smells
+     Les actions menées dans cette classe, vise à faciliter la lecture du code, la maintenance et l'évolution.
+         - Un dossier "functionality" a été créé afin d'abriter toutes les fonctionalités du programme. Ces dernières ayant été préalablement subdisvisées en classe et définit par leur fonction respective.
+     
+4- Ajout de nouvelles fonctionalitées 
+    * Annuler la dernière action d'ajout du membre :
+    * Anuler la dernière action de paie de certains membre:
+    * Permettre de définir le salaire d'un professeur
+    * Ajout d'un fichier JSON
+    
+5- Ajout d'un fichier xUnit
+    créer un environnement de test afin de s'assurer de la bonne fonctionabilité du programme en général et/ou des composantes du programme
+6- Fichier JSON
+    Afin d'éviter de stocker en dur les informations pendant l'implémentation du programme, le fichier JSON dans ses attributs, offre également la possiblité de stocker du data. 
+7- README
