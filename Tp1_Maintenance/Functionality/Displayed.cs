@@ -32,7 +32,10 @@ class Displayed
             teacher.Display();
     }
 
-
+    public static void InvalidInput()
+    {
+        Console.WriteLine(ReferenceText.Get("InvalidInput"));
+    }
 
 }
 

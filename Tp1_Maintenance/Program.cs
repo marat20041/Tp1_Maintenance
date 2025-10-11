@@ -12,7 +12,7 @@ namespace SchoolManager
         public static void RemovePay()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
-            Console.WriteLine(memberType);
+
             switch (memberType)
             {
                 case 1:
@@ -21,15 +21,12 @@ namespace SchoolManager
                 case 2:
                     UndoLastPay();
                     break;
-                case 3:
-                    UndoLastPay();
-                    break;
                 case 4:
                     UndoLastPay();
                     break;
 
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                    Displayed.InvalidInput();
                     break;
             }
         }
@@ -40,11 +37,10 @@ namespace SchoolManager
         /*
         * Cette méthode annule la dernière opération d'enregistrement enregistrée  
         */
-        
+
         public static void Remove()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
-            Console.WriteLine(memberType);
             switch (memberType)
             {
                 case 1:
@@ -61,7 +57,7 @@ namespace SchoolManager
                     break;
 
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                    Displayed.InvalidInput();
                     break;
             }
         }
@@ -93,7 +89,7 @@ namespace SchoolManager
                     Added.Receptionists();
                     break;
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                    Displayed.InvalidInput();
                     break;
             }
         }
@@ -121,7 +117,7 @@ namespace SchoolManager
                     Displayed.Receptionists();
                     break;
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                    Displayed.InvalidInput();
                     break;
             }
         }
@@ -150,11 +146,11 @@ namespace SchoolManager
                     Payed.Receptionists();
                     break;
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                   Displayed.InvalidInput();
                     break;
             }
 
-           
+
         }
 
         /* 
@@ -163,7 +159,7 @@ namespace SchoolManager
         */
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("-------------- Welcome ---------------\n");
+            Console.WriteLine(ReferenceText.Get("Welcome"));
 
             bool flag = true;
             while (flag)
@@ -199,7 +195,7 @@ namespace SchoolManager
                 }
             }
 
-            Console.WriteLine("\n-------------- Bye --------------");
+            Console.WriteLine(ReferenceText.Get("Bye"));
         }
     }
 }

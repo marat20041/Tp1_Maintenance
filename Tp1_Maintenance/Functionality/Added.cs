@@ -6,7 +6,7 @@ using System;
 class Added
 {
 
-     //public static UndoManager Undo = new UndoManager();
+    //public static UndoManager Undo = new UndoManager();
     /* supprimer util car non utilisé
     -Renommer les classes vu que la classe est defini
     */
@@ -28,7 +28,7 @@ class Added
         Receptionist newReceptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
         Receptionist.Receptionists.Add(newReceptionist);
         UndoManager.Push(
-             
+
                 name: $"Undo: add student '{newReceptionist.Name}'",
                 undo: () => Receptionist.Receptionists.Remove(newReceptionist));
     }
@@ -48,7 +48,8 @@ class Added
     {
         SchoolMember member = ConsoleHelper.AskAttributes();
         string subject = ConsoleHelper.AskQuestion("Enter subject: ");
-        Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
+        int income = ConsoleHelper.AskQuestionInt("Enter income: ");
+        Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject,income);
         Teacher.Teachers.Add(newTeacher);
         UndoManager.Push(
                 name: $"Undo: add student '{newTeacher.Name}'",

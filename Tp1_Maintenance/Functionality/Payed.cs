@@ -14,6 +14,10 @@ class Payed
             Task payment = new Task(principal.Pay);
             payments.Add(payment);
             payment.Start();
+            int amountPaid = principal.Income;
+             UndoManager.PushPayment(
+                payement: amountPaid,
+                undo: () => Principal.Principals.Remove(principal));
         }
 
         Task.WaitAll(payments.ToArray());
@@ -28,7 +32,12 @@ class Payed
             Task payment = new Task(receptionist.Pay);
             payments.Add(payment);
             payment.Start();
+            int amountPaid = receptionist.Income;
 
+            UndoManager.PushPayment(
+                payement: amountPaid,
+                undo: () => Receptionist.Receptionists.Remove(receptionist));
+            
         }
 
         Task.WaitAll(payments.ToArray());
@@ -48,6 +57,11 @@ class Payed
             Task payment = new Task(teacher.Pay);
             payments.Add(payment);
             payment.Start();
+               int amountPaidTeacher = teacher.Income;
+
+            UndoManager.PushPayment(
+                payement: amountPaidTeacher,
+                undo: () => Teacher.Teachers.Remove(teacher));
         }
 
         Task.WaitAll(payments.ToArray());

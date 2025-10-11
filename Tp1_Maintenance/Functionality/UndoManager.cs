@@ -35,19 +35,20 @@ public static class UndoManager
         _information.Push(new UndoPay(payement, undo));
     }
 
-    public static void UndoLastPayement()
+    public static int UndoLastPayement()
     {
         if (_information.Count == 0)
         {
             Console.WriteLine("No action to undo ");
+            return 0;
 
         }
         else
         {
             UndoPay entry = _information.Pop();
             entry.Undo();
-            Console.WriteLine($"No action to undo {entry.Payment}");
-            //return entry.Payment;
+            Console.WriteLine($"Last pay : {entry.Payment}");
+            return entry.Payment;
         }
        
 

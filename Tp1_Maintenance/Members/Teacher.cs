@@ -6,7 +6,7 @@ namespace SchoolManager
     public class Teacher : SchoolMember, IPayroll
     {
 
-        private int _income;
+        public int Income { get; set; }
         private int _balance;
         private string _subject;
 
@@ -20,11 +20,11 @@ namespace SchoolManager
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    _subject = value;
+                    _subject = "";
                 }
                 else
                 {
-                    _subject = "";
+                    _subject = value;
                 }
             }
         }
@@ -37,15 +37,15 @@ namespace SchoolManager
         */
         static public List<Teacher> Teachers = new List<Teacher>();
 
-        public Teacher(string name, string address, string phone, string subject, int income = 25000)
+        public Teacher(string name, string address, string phone, string subject, int income)
          : base(name, address, phone)
         {
 
             _subject = subject;
-            _income = income;
+            Income = income;
             _balance = 0;
 
-            Teachers.Add(this);
+
         }
         //Modification de l'affichage afin de respecter les conventions en C#
 
@@ -56,7 +56,7 @@ namespace SchoolManager
 
         public void Pay()
         {
-            Util.NetworkDelay.PayEntity("Teacher", Name, ref _balance, _income);
+            Util.NetworkDelay.PayEntity("Teacher", Name, ref _balance, Income);
         }
     }
 }
