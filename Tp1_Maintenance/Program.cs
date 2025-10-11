@@ -190,7 +190,7 @@ namespace SchoolManager
                         Complaints.RaiseComplaint(Receptionist!);
                         break;
                     case 5:
-                        await Performance.showPerformance();
+                        await Performance.ShowPerformance();
                         break;
                     case 6:
                         Remove();

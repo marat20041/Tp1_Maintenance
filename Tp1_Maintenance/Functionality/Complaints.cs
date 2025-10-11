@@ -10,11 +10,14 @@ public class Complaints
     private static void handleComplaintRaised(object? sender, Complaint e)
     {
         Console.WriteLine(ReferenceText.Get("ConfirmComplaint"));
+
+          string complaintValue = e.ComplaintRaised ?? "No complaint text provided";
+
         string informationComplaint = ReferenceText.Format("ComplaintDetails", new Dictionary<string, string>
         {
         { "date", e.ComplaintTime.ToLongDateString() },
         { "time", e.ComplaintTime.ToLongTimeString() },
-        { "complaint", e.ComplaintRaised }
+        { "complaint", complaintValue }
     });
 
         Console.WriteLine(informationComplaint);

@@ -33,9 +33,10 @@ public class TeacherTests
     }
 
     [Theory]
-    [InlineData("Bob", "")]
-    [InlineData("Bob", null)]
-    public void Subject_SetInvalid_Throws(string name, string subject)
+    [InlineData("")]
+    [InlineData(null)]
+    public void Subject_SetInvalid_Throws(string? subject)
+
     {
         var t = new Teacher("Valid Name", "Valid Addr", "123-456-7890", "Valid Subject", 20000);
         var ex = Assert.Throws<ArgumentException>(() => t.Subject = subject);

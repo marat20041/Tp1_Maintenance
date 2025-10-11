@@ -89,7 +89,7 @@ public class ReceptionistTests
     [Theory]
     [InlineData("")]
     [InlineData(null)]
-    public void HandleComplaint_ThrowsOnEmpty(string complaint)
+    public void HandleComplaint_ThrowsOnEmpty(string? complaint)
     {
         var r = new Receptionist("Tom", "Addr", "123-456-7890", 20000);
         Assert.Throws<ArgumentException>(() => r.HandleComplaint(complaint));
