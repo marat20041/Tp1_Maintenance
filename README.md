@@ -47,6 +47,11 @@ dotnet build
 dotnet run
 ```
 
+### 6.1 Executez les test unitaires
+```sh
+dotnet test
+```
+
 ## Changement effectuer au code
 
 _Mettre la liste des changements effectuer ainsi que de la justification de ces derniers Ex : Capitalisation des noms de fonctions, ce changement a été effectuer afin de respecter els conventions de codes de C#_
