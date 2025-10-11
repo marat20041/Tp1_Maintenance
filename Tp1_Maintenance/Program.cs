@@ -10,18 +10,8 @@ namespace SchoolManager
         static public UndoManager Undo = new UndoManager();
         static public Receptionist? Receptionist;
         static public Principal? Principal;
-
-        // public static void AddReceptionist()
-        // {
-        //     SchoolMember member = Util.ConsoleHelper.AskAttributes();
-        //     int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
-        //     Receptionist newReceptionist = new Receptionist(member.Name, member.Address, member.Phone, income);
-        //     Undo.Push(
-        //             name: $"Undo: add student '{newReceptionist.Name}'",
-        //             undo: () => Receptionist.Receptionists.Remove(newReceptionist));
-        // }
-
-        private static void addStudent()
+        
+        private static void AddStudent()
         {
             SchoolMember member = Util.ConsoleHelper.AskAttributes();
             int grade = Util.ConsoleHelper.AskQuestionInt("Enter grade: ");
@@ -31,11 +21,12 @@ namespace SchoolManager
                     undo: () => Student.RemoveStudent(newStudent));
         }
 
-        private static void addTeacher()
+        private static void AddTeacher()
         {
             SchoolMember member = Util.ConsoleHelper.AskAttributes();
             string subject = Util.ConsoleHelper.AskQuestion("Enter subject: ");
-            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject);
+            int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
+            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject, income);
             Undo.Push(
                     name: $"Undo: add student '{newTeacher.Name}'",
                     undo: () => Teacher.RemoveTeacher(newTeacher));
@@ -81,10 +72,10 @@ namespace SchoolManager
                     Console.WriteLine("The Principal details cannot be added or modified now.");
                     break;
                 case 2:
-                    addTeacher();
+                    AddTeacher();
                     break;
                 case 3:
-                    addStudent();
+                    AddStudent();
                     break;
                 default:
                     Console.WriteLine("Invalid input. Terminating operation.");
@@ -93,7 +84,7 @@ namespace SchoolManager
             }
         }
 
-        private static void display()
+        private static void Display()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
 
@@ -106,7 +97,7 @@ namespace SchoolManager
                 case 2:
                     Console.WriteLine("\nThe teachers are:");
                     foreach (Teacher teacher in Teacher.Teachers)
-                        teacher.Display();
+                        Console.WriteLine(teacher.Display());
                     break;
                 case 3:
                     Console.WriteLine("\nThe students are:");
@@ -186,7 +177,7 @@ namespace SchoolManager
             Console.WriteLine($"Complaint Raised: {complaint.ComplaintRaised}\n---------");
         }
 
-        private static async Task showPerformance()
+        private static async Task ShowPerformance()
         {
             double average = await Task.Run(() => Student.AverageGrade(Student.Students));
             Console.WriteLine($"The student average performance is: {average}");
@@ -195,48 +186,69 @@ namespace SchoolManager
         - supprimer la boucle for   qui donne des valeurs inutiles
         */
 
-        private static void addData()
-{
-    try
-    {
-        var configText = System.IO.File.ReadAllText("config.json");
-        var configs = System.Text.Json.JsonSerializer.Deserialize<List<PrincipalConfig>>(configText);
-
-        if (configs == null)
+        private static void AddData()
         {
-            Console.WriteLine("No configuration data found.");
-            return;
-        }
-
-        foreach (var config in configs)
-        {
-            switch (config.Role)
+            try
             {
-                case "Principal":
-                    Principal = new Principal(config.Name, config.Address, config.Phone, config.Income);
-                    break;
+                if (!File.Exists("config.json"))
+                {
+                    Console.WriteLine("Configuration file not found.");
+                    return;
+                }
 
-                case "Receptionist":
-                    Receptionist = new Receptionist(config.Name, config.Address, config.Phone, config.Income);
-                    Receptionist.ComplaintRaised += handleComplaintRaised;
-                    break;
+                var text = File.ReadAllText("config.json");
+                var members = System.Text.Json.JsonSerializer.Deserialize<List<MemberConfig>>(text);
 
-                default:
-                    Console.WriteLine($"Unknown role: {config.Role}");
-                    break;
+                if (members == null)
+                {
+                    Console.WriteLine("No configuration data found.");
+                    return;
+                }
+
+                foreach (var m in members)
+                {
+                    switch (m.Role)
+                    {
+                        case "Principal":
+                            Principal = new Principal(m.Name, m.Address, m.Phone, m.Income ?? 0);
+                            break;
+
+                        case "Receptionist":
+                            Receptionist = new Receptionist(m.Name, m.Address, m.Phone, m.Income ?? 0);
+                            Receptionist.ComplaintRaised += handleComplaintRaised;
+                            break;
+
+                        case "Teacher":
+                            if (string.IsNullOrEmpty(m.Subject))
+                                Console.WriteLine($"Missing subject for teacher {m.Name}");
+                            else
+                                new Teacher(m.Name, m.Address, m.Phone, m.Subject, m.Income ?? 0);
+                            break;
+
+                        case "Student":
+                            if (!m.Grade.HasValue)
+                                Console.WriteLine($"Missing grade for student {m.Name}");
+                            else
+                                new Student(m.Name, m.Address, m.Phone, m.Grade.Value);
+                            break;
+
+                        default:
+                            Console.WriteLine($"Unknown role: {m.Role}");
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading configuration: {ex.Message}");
             }
         }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error reading configuration: {ex.Message}");
-    }
-}
+
 
 
         public static async Task Main(string[] args)
         {
-            addData();
+            AddData();
 
             Console.WriteLine("-------------- Welcome ---------------\n");
 
@@ -251,7 +263,7 @@ namespace SchoolManager
                         Add();
                         break;
                     case 2:
-                        display();
+                        Display();
                         break;
                     case 3:
                         Pay();
@@ -260,7 +272,7 @@ namespace SchoolManager
                         RaiseComplaint();
                         break;
                     case 5:
-                        await showPerformance();
+                        await ShowPerformance();
                         break;
                     case 6:
                         Remove();

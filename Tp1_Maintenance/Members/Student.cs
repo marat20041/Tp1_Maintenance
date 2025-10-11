@@ -5,7 +5,7 @@ namespace SchoolManager
 {
     public class Student : SchoolMember
     {
-        private int _grade = 0;
+        private int _grade;
         private static readonly List<Student> _students = new List<Student>();
         public static IReadOnlyList<Student> Students => _students.AsReadOnly();
 
@@ -42,7 +42,7 @@ namespace SchoolManager
         public static double AverageGrade(IEnumerable<Student> students)
         {
             if (students == null || !students.Any()) return 0;
-            return students.Average(s => s.Grade);
+            return Math.Round(students.Average(s => s.Grade), 2);
         }
 
     }

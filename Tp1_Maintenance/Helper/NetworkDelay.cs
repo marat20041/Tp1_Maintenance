@@ -5,31 +5,25 @@ namespace Util
 {
     public class NetworkDelay
     {
-        private const int minDelay = 1000;
-        private const int maxDelay = 5000;
-
-        public static int MinDelay
+         private static HelperConfig _config;
+        
+        public static void LoadConfig(string path)
         {
-            get { return minDelay; }
-        }
-
-        public static int MaxDelay
-        {
-            get { return maxDelay; }
+            _config = ConfigLoader.LoadConfig(path);
         }
 
         static public void SimulateNetworkDelay()
         {
+            if (_config == null) throw new Exception("Config not loaded");
             Random rnd = new Random();
-            Thread.Sleep(rnd.Next(minDelay, maxDelay));
+            Thread.Sleep(rnd.Next(_config.MinDelay, _config.MaxDelay));
         }
 
         static public void PayEntity(string entity, string name, ref int balance, int income)
         {
             SimulateNetworkDelay();
-
             balance += income;
-            System.Console.WriteLine($"Paid {entity}: {name}. Total balance: {balance}");
+            Console.WriteLine($"Paid {entity}: {name}. Total balance: {balance}");
         }
     }
 }

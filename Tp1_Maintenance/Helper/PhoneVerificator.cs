@@ -1,43 +1,40 @@
-using System.Linq;
+using System;
 using System.Text.RegularExpressions;
 
-class PhoneVerificator
+public class PhoneVerificator
 {
-   public static bool IsValidPhone(string phone)
+    private static HelperConfig _config;
+
+    public static void LoadConfig(HelperConfig config)
     {
-        /*- ce programme verifie 
-        - les valeurs entrées 
-        - la longueur des chiffres 
-        - verifie les caractères autorisés
-        */
+        _config = config;
+    }
+
+    public static bool IsValidPhone(string phone)
+    {
         if (string.IsNullOrWhiteSpace(phone))
         {
-            Console.WriteLine(" The number is empty");
+            Console.WriteLine("The number is empty");
             return false;
         }
 
-       
-        string cleaned = phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
+        if (_config == null) throw new Exception("Config not loaded");
 
-        if (!cleaned.All(char.IsDigit))
+        string cleaned = phone.Replace("-", "").Replace(" ", "");
+
+        if (cleaned.Length < _config.MinPhoneLength || cleaned.Length > _config.MaxPhoneLength)
         {
-            Console.WriteLine("The number must contain only numbers");
+            Console.WriteLine($"The number must be between {_config.MinPhoneLength} and {_config.MaxPhoneLength} digits");
             return false;
         }
 
-        if (cleaned.Length < 10 || cleaned.Length > 15)
-        {
-            Console.WriteLine(" The number must be between 10 and 15 digits.");
-            return false;
-        }
-
-       
-        string pattern = @"^\+?[0-9\s\-\(\)]{10,20}$";
+        string pattern = _config.PhonePattern;
         if (!Regex.IsMatch(phone, pattern))
         {
             Console.WriteLine("The number format is invalid");
             return false;
         }
+
         return true;
     }
 }

@@ -1,18 +1,126 @@
 [
   {
-    "_comment": "Configuration pour le Principal de base",
     "Role": "Principal",
     "Name": "Mike Shinoda",
     "Address": "123 Main St",
-    "Phone": "111-555-1234",
+    "Phone": "319-472-8391",
     "Income": 50000
   },
   {
-    "_comment": "Configuration pour le receptionniste",
     "Role": "Receptionist",
     "Name": "Janna DuCouteau",
     "Address": "12 Ravage Street",
-    "Phone": "111-555-0191",
+    "Phone": "319-685-2047",
     "Income": 10000
+  },
+  {
+    "Role": "Teacher",
+    "Name": "Zed Kayn",
+    "Address": "99 Shadow Ln",
+    "Phone": "319-918-3560",
+    "Subject": "Mathematics",
+    "Income": 30000
+  },
+  {
+    "Role": "Teacher",
+    "Name": "Morgana LeBlanc",
+    "Address": "77 Twilight Rd",
+    "Phone": "319-743-1928",
+    "Subject": "Ethics",
+    "Income": 35000
+  },
+  {
+    "Role": "Teacher",
+    "Name": "Heimerdinger Piltov",
+    "Address": "88 Gear St",
+    "Phone": "319-560-8473",
+    "Subject": "Engineering",
+    "Income": 40000
+  },
+  {
+    "Role": "Student",
+    "Name": "Luxanna Crownguard",
+    "Address": "201 Light Ave",
+    "Phone": "821-937-5104",
+    "Grade": 92
+  },
+  {
+    "Role": "Student",
+    "Name": "Ezreal Cavendish",
+    "Address": "45 Explorer Ln",
+    "Phone": "821-604-7839",
+    "Grade": 87
+  },
+  {
+    "Role": "Student",
+    "Name": "Ahri Kim",
+    "Address": "13 Spirit Rd",
+    "Phone": "821-852-1476",
+    "Grade": 90
+  },
+  {
+    "Role": "Student",
+    "Name": "Katarina DuCouteau",
+    "Address": "8 Blade Ave",
+    "Phone": "821-790-3265",
+    "Grade": 85
+  },
+  {
+    "Role": "Student",
+    "Name": "Jayce Talis",
+    "Address": "54 Hammer Blvd",
+    "Phone": "821-415-9782",
+    "Grade": 93
+  },
+  {
+    "Role": "Student",
+    "Name": "Vi Vander",
+    "Address": "22 Fist St",
+    "Phone": "191-236-5408",
+    "Grade": 88
+  },
+  {
+    "Role": "Student",
+    "Name": "Caitlyn Kiramman",
+    "Address": "19 Piltover Ln",
+    "Phone": "191-478-6923",
+    "Grade": 95
+  },
+  {
+    "Role": "Student",
+    "Name": "Jinx PowPow",
+    "Address": "5 Boom Rd",
+    "Phone": "191-805-3179",
+    "Grade": 60
+  },
+  {
+    "Role": "Student",
+    "Name": "Riven Navori",
+    "Address": "7 Blade St",
+    "Phone": "191-643-2895",
+    "Grade": 84
+  },
+  {
+    "Role": "Student",
+    "Name": "Yasuo Mura",
+    "Address": "32 Wind Path",
+    "Phone": "191-972-4501",
+    "Grade": 89
+  },
+  {
+    "Role": "Student",
+    "Name": "Taliyah Shurima",
+    "Address": "71 Stone Way",
+    "Phone": "319-472-8391",
+    "Grade": 91
+  },
+  {
+    "_comment": "Configuration for the hard-coded values in the application",
+    "MinDelay": 1000,
+    "MaxDelay": 5000,
+    "MinPhoneLength": 10,
+    "MaxPhoneLength": 15,
+    "PhonePattern": "^\\+?[0-9\\s\\-\\(\\)]+$",
+    "DefaultIncome": 50000
   }
 ]

@@ -37,7 +37,7 @@ namespace SchoolManager
         public static IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
 
 
-        public Teacher(string name, string address, string phone, string subject, int income = 25000)
+        public Teacher(string name, string address, string phone, string subject, int income)
          : base(name, address, phone)
         {
 

@@ -14,7 +14,7 @@ namespace SchoolManager
 
         public event EventHandler<ComplaintEventArgs>? ComplaintRaised;
 
-        public Receptionist(string name, string address, string phoneNum, int income = 10000) : base(name, address, phoneNum)
+        public Receptionist(string name, string address, string phoneNum, int income) : base(name, address, phoneNum)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty", nameof(name));
