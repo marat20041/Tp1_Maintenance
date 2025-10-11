@@ -9,7 +9,7 @@ namespace Util
         static public string AskQuestion(string question)
         {
             System.Console.Write(question);
-            return Console.ReadLine();
+            return Console.ReadLine()!;
         }
 
         static public int AskQuestionInt(string question)
