@@ -5,14 +5,14 @@ class Displayed
 {
     public static void Principals()
     {
-        Console.WriteLine("\nThe Principal's details are:");
+        Console.WriteLine(ReferenceText.Get("ListPrincipals"));
         foreach (Principal principal in Principal.Principals)
             Console.WriteLine(principal.Display());
     }
 
     public static void Receptionists()
     {
-        Console.WriteLine("\nThe Receptionist's details are:");
+        Console.WriteLine(ReferenceText.Get("ListReceptionists"));
         foreach (Receptionist receptionist in Receptionist.Receptionists)
             Console.WriteLine(receptionist.Display());
 

@@ -39,5 +39,10 @@
     "PaymentInProgress": "Payments in progress...",
     "UndoPay": "Last payment operation undone.",
     "UndoRegister": "Last registration operation undone.",
-    "AskPhoneAgain": "Enter phone (digits, spaces, +, -, (, )): "
+    "AskPhoneAgain": "Enter phone (digits, spaces, +, -, (, )): ",
+    "ConfirmCancel": "Are you sure you want to cancel the last last registration operation (y/n) ? ",
+    "ListReceptionists": "The Receptionist's details are:",
+    "ListPrincipals": "The Principal's details are:",
+    "UndoCancelled": "Undo cancelled.",
+    "UndoConfirmed": "Last action successfully removed."
 }

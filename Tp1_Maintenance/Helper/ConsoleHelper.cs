@@ -44,5 +44,10 @@ namespace Util
         {
             return AskQuestionInt(ReferenceText.Get("MainMenu"));
         }
+
+        public static string ConfirmCancel(string action)
+        {
+            return AskQuestion(ReferenceText.Get("ConfirmCancel") + action + " (y/n) ? ");
+        }
     }
 }
