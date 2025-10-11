@@ -20,10 +20,7 @@ namespace SchoolManager
 
         public string Subject
         {
-            get
-            {
-                return _subject;
-            }
+            get => _subject;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -42,11 +39,10 @@ namespace SchoolManager
         public static IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
 
         public Teacher(string name, string address, string phone, string subject, int? income)
-         : base(name, address, phone)
+    : base(ValidateName(name), ValidateAddress(address), ValidatePhone(phone))
         {
-
             if (string.IsNullOrWhiteSpace(subject))
-                throw new ArgumentException(ReferenceText.Get("InvalidSubject"), nameof(subject));
+                throw new ArgumentException(ReferenceText.Get("EmptySubject"), nameof(subject));
 
             if (income < 0)
                 throw new ArgumentOutOfRangeException(nameof(income), ReferenceText.Get("NegativeIncome"));
@@ -58,6 +54,28 @@ namespace SchoolManager
             _teachers.Add(this);
         }
 
+        private static string ValidateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(ReferenceText.Get("EmptyName"), nameof(name));
+            return name;
+        }
+
+        private static string ValidateAddress(string address)
+        {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentException(ReferenceText.Get("EmptyAddress"), nameof(address));
+            return address;
+        }
+
+        private static string ValidatePhone(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+                throw new ArgumentException(ReferenceText.Get("EmptyPhone"), nameof(phone));
+            return phone;
+        }
+
+
 
         public static void RemoveTeacher(Teacher teacher)
         {
@@ -66,7 +84,7 @@ namespace SchoolManager
 
         public override string Display()
         {
-            return $"Name: {Name ?? ""}, Address: {Address ?? ""}, Phone: {Phone ?? ""}, Subject: {Subject ?? ""}";
+            return $"Name: {Name ?? ""}, Address: {Address ?? ""}, Phone: {Phone ?? ""}, Subject: {Subject ?? ""} , Income: {Income}";
 
         }
 
