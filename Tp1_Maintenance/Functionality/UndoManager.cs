@@ -1,17 +1,22 @@
 public static class UndoManager
 {
-    /* ce code enregistre les informations des membres selon leur types 
-    lorsque activé retire et retourne la liste demandée a l'exception du dernier membre 
-    enregistré
-    */
+    /// <summary>
+    /// Gère l’historique des actions annulables et des paiements.
+    /// Permet de revenir en arrière sur les ajouts/suppressions de membres ou les paiements.
+    /// </summary>
+
+    /// <summary>Indique s’il existe des actions à annuler.</summary>
     public static bool CanUndo => _history.Count > 0;
     private static readonly Stack<UndoEntry> _history = new();
 
+    
+    /// <summary>Enregistre une action annulable dans l’historique.</summary>
     public static void Push(string name, Action undo)
     {
         _history.Push(new UndoEntry(name, undo));
     }
 
+    /// <summary>Annule la dernière action enregistrée et retourne son nom.</summary>
     public static string Undo()
     {
         if (_history.Count == 0)
@@ -30,11 +35,13 @@ public static class UndoManager
 
     private static readonly Stack<UndoPay> _information = new();
 
+    /// <summary>Enregistre un paiement annulable.</summary>
     public static void PushPayment(int payement, Action undo)
     {
         _information.Push(new UndoPay(payement, undo));
     }
 
+    /// <summary>Annule le dernier paiement et retourne le montant payé.</summary>
     public static int UndoLastPayement()
     {
         if (_information.Count == 0)

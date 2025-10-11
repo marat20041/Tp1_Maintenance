@@ -1,23 +1,43 @@
 ﻿using System;
 using System.Runtime.InteropServices.Marshalling;
 
+/// <summary>
+/// Représente un enseignant de l’école.
+/// Hérite de <see cref="SchoolMember"/> et implémente <see cref="IPayroll"/>.
+/// Gère le revenu, le solde et la matière enseignée.
+/// </summary>
 namespace SchoolManager
 {
     public class Teacher : SchoolMember, IPayroll
     {
         private static HelperConfig? _config;
+
+        
+        /// <summary>
+        /// Charge la configuration pour déterminer les revenus par défaut.
+        /// </summary>
         public static void LoadConfig(HelperConfig config)
         {
             _config = config;
         }
 
-
-        public int Income => _income;
-        public int Balance => _balance;
         private int _balance;
         private int _income;
         private string _subject;
 
+        /// <summary>
+        /// Revenu du professeur.
+        /// </summary>
+        public int Income => _income;
+
+        /// <summary>
+        /// Solde actuel du professeur.
+        /// </summary>
+        public int Balance => _balance;
+
+        /// <summary>
+        /// Matière enseignée par le professeur.
+        /// </summary>
         public string Subject
         {
             get => _subject;
@@ -29,15 +49,15 @@ namespace SchoolManager
             }
         }
 
-
-
-        /*Modification du type de phone
-        - Ajout de "base" qui refere aux variables du parents
-        - Ajout des objets dans la liste à l'appel du constructeur 
-        */
         private static readonly List<Teacher> _teachers = new List<Teacher>();
+
+        
+        /// <summary>Liste en lecture seule de tous les enseignants.</summary>
         public static IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
 
+ /// <summary>
+        /// Initialise un nouvel enseignant avec nom, adresse, téléphone, matière et revenu optionnel.
+        /// </summary>
         public Teacher(string name, string address, string phone, string subject, int? income)
     : base(ValidateName(name), ValidateAddress(address), ValidatePhone(phone))
         {
@@ -76,18 +96,20 @@ namespace SchoolManager
         }
 
 
-
+        /// <summary>Supprime un enseignant de la liste globale.</summary>
         public static void RemoveTeacher(Teacher teacher)
         {
             _teachers.Remove(teacher);
         }
 
+        /// <summary>Retourne une chaîne décrivant l’enseignant.</summary>
         public override string Display()
         {
             return $"Name: {Name ?? ""}, Address: {Address ?? ""}, Phone: {Phone ?? ""}, Subject: {Subject ?? ""} , Income: {Income}";
 
         }
 
+        /// <summary>Paye le professeur en ajoutant son revenu à son solde.</summary>
         public void Pay()
         {
             try

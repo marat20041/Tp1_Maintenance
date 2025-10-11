@@ -3,32 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ComplaintEventArgsNamespace;
 
+
+/// <summary>
+/// Point d'entrée principal de l'application de gestion scolaire.
+/// Gère les ajouts, affichages, paiements, plaintes et annulations pour les membres de l'école.
+/// </summary>
 namespace SchoolManager
 {
     public class Program
     {
+
         static public Receptionist? Receptionist;
-        static public Principal? Principal;
 
-        private static void UndoLast()
-        {
-            Console.Write(ReferenceText.Get("ConfirmCancel") + "last registration operation (y/n) ? ");
-            string? input = Console.ReadLine()?.Trim().ToLower();
-
-            if (input == "y" || input == "yes")
-            {
-                UndoManager.Undo();
-                Console.WriteLine(ReferenceText.Get("UndoConfirmed"));
-            }
-            else
-            {
-                Console.WriteLine(ReferenceText.Get("UndoCancelled"));
-            }
-        }
-
-        /* 
-        * Cette méthode annule la dernière opération de paie enregistrée  
-        */
+        /// <summary>Annule la dernière opération de paie enregistrée.</summary>
         public static void RemovePay()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
@@ -50,14 +37,15 @@ namespace SchoolManager
                     break;
             }
         }
+
+
+        /// <summary>Annule le dernier paiement et affiche la confirmation.</summary>
         public static void UndoLastPay()
         {
             UndoManager.UndoLastPayement();
         }
-        /*
-        * Cette méthode annule la dernière opération d'enregistrement enregistrée  
-        */
 
+        /// <summary>Annule la dernière opération d'enregistrement après confirmation utilisateur.</summary>
         public static void Remove()
         {
             if (!UndoManager.CanUndo)
@@ -80,10 +68,7 @@ namespace SchoolManager
             }
         }
 
-        /* 
-        * Cette méthode traite les demandes d'ajout d'information en fonction
-        * du type de membre 
-        */
+        /// <summary>Ajoute un nouveau membre selon le type choisi par l'utilisateur.</summary>
         public static void Add()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
@@ -109,6 +94,7 @@ namespace SchoolManager
             }
         }
 
+        /// <summary>Affiche les informations d'un membre selon le type choisi par l'utilisateur.</summary>
         private static void Display()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
@@ -133,9 +119,8 @@ namespace SchoolManager
             }
         }
 
-        /*
-        * Cette recoit un choix de membre à partir de la console et traite la paie  
-        */
+
+        /// <summary>Traite la paie d'un membre ou groupe de membres selon le type choisi.</summary>
         public static void Pay()
         {
             int memberType = Util.ConsoleHelper.AskMemberType();
@@ -145,13 +130,13 @@ namespace SchoolManager
             switch (memberType)
             {
                 case 1:
-                    Payed.PayPrincipal(Principal!);
+                    Payed.PayPrincipal();
                     break;
                 case 2:
                     Payed.PayAllTeachers();
                     break;
                 case 4:
-                    Payed.PayReceptionist(Receptionist!);
+                    Payed.PayReceptionist();
                     break;
                 default:
                     Displayed.InvalidInput();
@@ -161,13 +146,11 @@ namespace SchoolManager
 
         }
 
-        /* 
-        * Ce gestionnaire d'école offre 7 fonctionnalités permettant de traiter les choix de 
-        * de l'utilisateur 
-        */
+        /// <summary>
+        /// Boucle principale de l'application, gère le menu et les choix de l'utilisateur.
+        /// </summary>
         public static async Task Main(string[] args)
         {
-            // AddData();
             Console.WriteLine(ReferenceText.Get("Welcome"));
 
             bool flag = true;
