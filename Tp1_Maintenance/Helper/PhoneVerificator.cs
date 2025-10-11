@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 public class PhoneVerificator
 {
-    private static HelperConfig _config;
+    private static HelperConfig? _config;
 
     public static void LoadConfig(HelperConfig config)
     {

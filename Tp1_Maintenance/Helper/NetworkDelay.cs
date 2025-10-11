@@ -5,7 +5,7 @@ namespace Util
 {
     public class NetworkDelay
     {
-         private static HelperConfig _config;
+         private static HelperConfig? _config;
         
         public static void LoadConfig(string path)
         {

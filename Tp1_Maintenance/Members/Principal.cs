@@ -5,7 +5,7 @@ namespace SchoolManager
 {
     public class Principal : SchoolMember, IPayroll
     {
-        private static HelperConfig _config;
+        private static HelperConfig? _config;
         public static void LoadConfig(HelperConfig config)
         {
             _config = config;
