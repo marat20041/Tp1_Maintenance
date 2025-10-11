@@ -8,7 +8,6 @@ namespace SchoolManager
         private int _grade;
         private static readonly List<Student> _students = new List<Student>();
         public static IReadOnlyList<Student> Students => _students.AsReadOnly();
-
         public Student(string name, string address, string phone, int grade)
             : base(name, address, phone)
 

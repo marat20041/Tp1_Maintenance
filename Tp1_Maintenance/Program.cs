@@ -7,34 +7,45 @@ namespace SchoolManager
 {
     public class Program
     {
-        static public UndoManager Undo = new UndoManager();
         static public Receptionist? Receptionist;
         static public Principal? Principal;
-        
-        private static void AddStudent()
-        {
-            SchoolMember member = Util.ConsoleHelper.AskAttributes();
-            int grade = Util.ConsoleHelper.AskQuestionInt("Enter grade: ");
-            Student newStudent = new Student(member.Name, member.Address, member.Phone, grade);
-            Undo.Push(
-                    name: $"Undo: add student '{newStudent.Name}'",
-                    undo: () => Student.RemoveStudent(newStudent));
-        }
 
-        private static void AddTeacher()
-        {
-            SchoolMember member = Util.ConsoleHelper.AskAttributes();
-            string subject = Util.ConsoleHelper.AskQuestion("Enter subject: ");
-            int income = Util.ConsoleHelper.AskQuestionInt("Enter income: ");
-            Teacher newTeacher = new Teacher(member.Name, member.Address, member.Phone, subject, income);
-            Undo.Push(
-                    name: $"Undo: add student '{newTeacher.Name}'",
-                    undo: () => Teacher.RemoveTeacher(newTeacher));
-        }
         private static void UndoLast()
         {
-            Console.WriteLine(Undo.Undo());
+            Console.WriteLine(UndoManager.Undo());
         }
+        
+        /* 
+        * Cette méthode annule la dernière opération de paie enregistrée  
+        */
+        public static void RemovePay()
+        {
+            int memberType = Util.ConsoleHelper.AskMemberType();
+
+            switch (memberType)
+            {
+                case 1:
+                    UndoLastPay();
+                    break;
+                case 2:
+                    UndoLastPay();
+                    break;
+                case 4:
+                    UndoLastPay();
+                    break;
+
+                default:
+                    Displayed.InvalidInput();
+                    break;
+            }
+        }
+        public static void UndoLastPay()
+        {
+            UndoManager.UndoLastPayement();
+        }
+        /*
+        * Cette méthode annule la dernière opération d'enregistrement enregistrée  
+        */
 
         public static void Remove()
         {
@@ -47,7 +58,6 @@ namespace SchoolManager
                 case 2:
                     UndoLast();
                     break;
-
                 case 3:
                     UndoLast();
                     break;
@@ -56,14 +66,16 @@ namespace SchoolManager
                     break;
 
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                    Displayed.InvalidInput();
                     break;
             }
         }
-
+        /* 
+        * Cette méthode traite les demandes d'ajout d'information en fonction
+        * du type de membre 
+        */
         public static void Add()
         {
-            Console.WriteLine("\nPlease note that the Principal/Receptionist details cannot be added or modified now.");
             int memberType = Util.ConsoleHelper.AskMemberType();
 
             switch (memberType)
@@ -72,17 +84,17 @@ namespace SchoolManager
                     Console.WriteLine("The Principal details cannot be added or modified now.");
                     break;
                 case 2:
-                    AddTeacher();
+                    Added.CreateATeacher();
                     break;
                 case 3:
-                    AddStudent();
+                    Added.CreateAStudent();
                     break;
                 case 4:
                     Console.WriteLine("The Receptionist details cannot be added or modified now.");
                     break;
+
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
-                    Console.WriteLine(memberType);
+                    Displayed.InvalidInput();
                     break;
             }
         }
@@ -94,166 +106,58 @@ namespace SchoolManager
             switch (memberType)
             {
                 case 1:
-                    Console.WriteLine("\nThe Principal's details are:");
-                    Console.WriteLine(Principal?.Display());
+                    Displayed.Principals(Principal!);
                     break;
                 case 2:
-                    Console.WriteLine("\nThe teachers are:");
-                    foreach (Teacher teacher in Teacher.Teachers)
-                        Console.WriteLine(teacher.Display());
+                    Displayed.Teachers();
                     break;
                 case 3:
-                    Console.WriteLine("\nThe students are:");
-                    foreach (Student student in Student.Students)
-                        Console.WriteLine(student.Display());
+                    Displayed.Students();
                     break;
                 case 4:
-                    Console.WriteLine("\nThe Receptionist's details are:");
-                    Console.WriteLine(Receptionist?.Display());
+                    Displayed.Receptionists(Receptionist!);
                     break;
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                    Displayed.InvalidInput();
                     break;
             }
         }
 
+        /*
+        * Cette recoit un choix de membre à partir de la console et traite la paie  
+        */
         public static void Pay()
         {
-            Console.WriteLine("\nPlease note that the students cannot be paid.");
             int memberType = Util.ConsoleHelper.AskMemberType();
 
             Console.WriteLine("\nPayments in progress...");
 
-            List<Task> payments = new List<Task>();
             switch (memberType)
             {
-
                 case 1:
-                    if (Principal != null)
-                    {
-                        Task payment = new Task(Principal.Pay);
-                        payments.Add(payment);
-                        payment.Start();
-                    }
-
-                    Task.WaitAll(payments.ToArray());
+                    Payed.PayPrincipal(Principal!);
                     break;
                 case 2:
-                    foreach (Teacher teacher in Teacher.Teachers)
-                    {
-                        Task payment = new Task(teacher.Pay);
-                        payments.Add(payment);
-                        payment.Start();
-                    }
-
-                    Task.WaitAll(payments.ToArray());
-
+                    Payed.PayAllTeachers();
                     break;
                 case 4:
-                    if (Receptionist != null)
-                    {
-                        Task payment = new Task(Receptionist.Pay);
-                        payments.Add(payment);
-                        payment.Start();
-                    }
-
-                    Task.WaitAll(payments.ToArray());
+                    Payed.PayReceptionist(Receptionist!);
                     break;
                 default:
-                    Console.WriteLine("Invalid input. Terminating operation.");
+                   Displayed.InvalidInput();
                     break;
             }
 
-            Console.WriteLine("Payments completed.\n");
+
         }
 
-        public static void RaiseComplaint()
-        {
-            string complaintText = Util.ConsoleHelper.AskQuestion("Please enter your complaint: ");
-            Receptionist?.HandleComplaint(complaintText);
-        }
-
-        private static void handleComplaintRaised(object? sender, ComplaintEventArgs complaint)
-        {
-            Console.WriteLine("\nThis is a confirmation that we received your complaint. The details are as follows:");
-            Console.WriteLine($"---------\nComplaint Time: {complaint.ComplaintTime.ToLongDateString()}, {complaint.ComplaintTime.ToLongTimeString()}");
-            Console.WriteLine($"Complaint Raised: {complaint.ComplaintRaised}\n---------");
-        }
-
-        private static async Task ShowPerformance()
-        {
-            double average = await Task.Run(() => Student.AverageGrade(Student.Students));
-            Console.WriteLine($"The student average performance is: {average}");
-        }
-        /* Ajustement des parametres suite à la modification du type de phone
-        - supprimer la boucle for   qui donne des valeurs inutiles
+        /* 
+        * Ce gestionnaire d'école offre 7 fonctionnalités permettant de traiter les choix de 
+        * de l'utilisateur 
         */
-
-        private static void AddData()
-        {
-            try
-            {
-                if (!File.Exists("config.json"))
-                {
-                    Console.WriteLine("Configuration file not found.");
-                    return;
-                }
-
-                var text = File.ReadAllText("config.json");
-                var members = System.Text.Json.JsonSerializer.Deserialize<List<MemberConfig>>(text);
-
-                if (members == null)
-                {
-                    Console.WriteLine("No configuration data found.");
-                    return;
-                }
-
-                foreach (var m in members)
-                {
-                    switch (m.Role)
-                    {
-                        case "Principal":
-                            Principal = new Principal(m.Name, m.Address, m.Phone, m.Income ?? 0);
-                            break;
-
-                        case "Receptionist":
-                            Receptionist = new Receptionist(m.Name, m.Address, m.Phone, m.Income ?? 0);
-                            Receptionist.ComplaintRaised += handleComplaintRaised;
-                            break;
-
-                        case "Teacher":
-                            if (string.IsNullOrEmpty(m.Subject))
-                                Console.WriteLine($"Missing subject for teacher {m.Name}");
-                            else
-                                new Teacher(m.Name, m.Address, m.Phone, m.Subject, m.Income ?? 0);
-                            break;
-
-                        case "Student":
-                            if (!m.Grade.HasValue)
-                                Console.WriteLine($"Missing grade for student {m.Name}");
-                            else
-                                new Student(m.Name, m.Address, m.Phone, m.Grade.Value);
-                            break;
-
-                        default:
-                            Console.WriteLine($"Unknown role: {m.Role}");
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error reading configuration: {ex.Message}");
-            }
-        }
-
-
-
         public static async Task Main(string[] args)
         {
-            AddData();
-
-            Console.WriteLine("-------------- Welcome ---------------\n");
+            Console.WriteLine(ReferenceText.Get("Welcome"));
 
             bool flag = true;
             while (flag)
@@ -272,10 +176,10 @@ namespace SchoolManager
                         Pay();
                         break;
                     case 4:
-                        RaiseComplaint();
+                        Complaints.RaiseComplaint(Receptionist!);
                         break;
                     case 5:
-                        await ShowPerformance();
+                        await Performance.showPerformance();
                         break;
                     case 6:
                         Remove();
@@ -289,7 +193,7 @@ namespace SchoolManager
                 }
             }
 
-            Console.WriteLine("\n-------------- Bye --------------");
+            Console.WriteLine(ReferenceText.Get("Bye"));
         }
     }
 }

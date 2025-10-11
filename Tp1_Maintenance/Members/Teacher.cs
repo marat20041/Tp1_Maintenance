@@ -6,9 +6,11 @@ namespace SchoolManager
     public class Teacher : SchoolMember, IPayroll
     {
 
-        private int _income;
+        public int Income { get; set; }
         private int _balance;
         private string _subject;
+
+        private int _income;
 
 
 
@@ -35,7 +37,6 @@ namespace SchoolManager
         */
         private static readonly List<Teacher> _teachers = new List<Teacher>();
         public static IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
-
 
         public Teacher(string name, string address, string phone, string subject, int income)
          : base(name, address, phone)

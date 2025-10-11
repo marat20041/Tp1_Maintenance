@@ -1,11 +1,22 @@
 ﻿using Util;
 using SchoolManager;
+using System.Text.Json;
 namespace Util
+
 
 {
 
     public static class ConsoleHelper
     {
+        public static SchoolMember AskAttributes()
+        {
+            SchoolMember member = new SchoolMember();
+            member.Name = AskQuestion(ReferenceText.Get("Name"));
+            member.Address = AskQuestion(ReferenceText.Get("Address"));
+            member.Phone = AskQuestion(ReferenceText.Get("Phone"));
+
+            return member;
+        }
         static public string AskQuestion(string question)
         {
             System.Console.Write(question);
@@ -14,29 +25,20 @@ namespace Util
 
         static public int AskQuestionInt(string question)
         {
-            System.Console.Write(question);
-            bool state = int.TryParse(System.Console.ReadLine(), out int result);
+            Console.Write(question);
+            bool state = int.TryParse(Console.ReadLine(), out int result);
             while (!state)
             {
-                System.Console.Write("Invalid input. Please try again: ");
-                state = int.TryParse(System.Console.ReadLine(), out result);
+                Console.Write(ReferenceText.Get("Invalid"));
+                state = int.TryParse(Console.ReadLine(), out result);
             }
 
             return result;
         }
 
-        public static SchoolMember AskAttributes()
-        {
-            string name = AskQuestion("Enter name: ");
-            string address = AskQuestion("Enter address: ");
-            string phone = AskQuestion("Enter phone: ");
-
-            return new SchoolMember(name, address, phone);
-        }
-
         public static int AskMemberType()
         {
-            int x = AskQuestionInt("\n1. Principal\n2. Teacher\n3. Student\n4. Receptionist\nPlease enter the member type: ");
+            int x = AskQuestionInt(ReferenceText.Get("MemberOption"));
             return Enum.IsDefined(typeof(SchoolMemberType), x) ? x : -1;
         }
 

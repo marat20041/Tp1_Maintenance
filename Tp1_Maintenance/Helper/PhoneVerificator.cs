@@ -31,7 +31,7 @@ public class PhoneVerificator
         string pattern = _config.PhonePattern;
         if (!Regex.IsMatch(phone, pattern))
         {
-            Console.WriteLine("The number format is invalid");
+            Console.WriteLine(ReferenceText.Get("PhoneChar"));
             return false;
         }
 
