@@ -2,8 +2,8 @@
 ## Role dans l'équipe
 | Role    | Nom, Prénom | Tache Effectuer  |
 | -------- | ------- | ------- | 
-| Team-Lead  | N'Goran, Beau-Séjour Djatti    | |
-| QA | Werbrouck, Nicolas     | Reglement des codes smells, Refactorisation du code, Programation defensive, Configuration de fichier Json |
+| Team-Lead  | N'Goran, Beau-Séjour Djatti    | Ajout de la fonctionnalite d'annulation, Refactorisation, Ecriture du README.md |
+| QA | Werbrouck, Nicolas     | Reglement des codes smells, Refactorisation du code, Programation defensive, Configuration de fichier Json, Creation des tests unitaitres, Reglement de bogue |
 | Programmeur    | Sargsyan, Marat    | |
 
 Chaque membre de l'équipe on un role attribué, toutefois, il n'est pas imporbable qu'il ait eu de l'entraide entre les membres de l'équipe

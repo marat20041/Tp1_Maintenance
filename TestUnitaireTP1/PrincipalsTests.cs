@@ -9,7 +9,7 @@ public class PrincipalTests
     public void Constructor_AddsPrincipalToList()
     {
         var countBefore = Principal.Principals.Count;
-        var p = new Principal("Alice", "Main St", "123", 60000);
+        var p = new Principal("Alice", "Main St", "123", 50000);
         Assert.Equal(countBefore + 1, Principal.Principals.Count);
         Principal.RemovePrincipal(p); 
     }

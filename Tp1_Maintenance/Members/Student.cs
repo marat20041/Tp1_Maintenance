@@ -12,6 +12,15 @@ namespace SchoolManager
             : base(name, address, phone)
 
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(ReferenceText.Get("EmptyName"), nameof(name));
+
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentException(ReferenceText.Get("EmptyAddress"), nameof(address));
+
+            if (string.IsNullOrWhiteSpace(phone))
+                throw new ArgumentException(ReferenceText.Get("EmptyPhone"), nameof(phone));
+                
             if (grade < 0 || grade > 100)
                 throw new ArgumentOutOfRangeException(nameof(grade), ReferenceText.Get("InvalidGrade"));
 
