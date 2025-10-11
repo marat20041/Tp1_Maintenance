@@ -50,3 +50,9 @@ dotnet run
 ## Changement effectuer au code
 
 _Mettre la liste des changements effectuer ainsi que de la justification de ces derniers Ex : Capitalisation des noms de fonctions, ce changement a été effectuer afin de respecter els conventions de codes de C#_
+
+1- Modification du type de la variable "Phone" (de int à string)
+    Permet la prise en charge des numéros débutant par 0.
+    Facilite la vérification et la validation des numéro téléphone 
+  
+2- 
