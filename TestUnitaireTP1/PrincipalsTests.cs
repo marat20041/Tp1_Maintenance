@@ -14,10 +14,13 @@ public class PrincipalTests
         Principal.RemovePrincipal(p); 
     }
 
-    [Fact]
-    public void Constructor_ThrowsIfNameIsEmpty()
+    [Theory]
+    [InlineData("", "Addr", "123")]
+    [InlineData("Bob", "", "123")]
+    [InlineData("Bob", "Addr", "")]
+    public void Constructor_ThrowsOnInvalidInputs(string name, string address, string phone)
     {
-        Assert.Throws<ArgumentException>(() => new Principal("", "Addr", "123", 50000));
+        Assert.Throws<ArgumentException>(() => new Principal(name, address, phone, 50000));
     }
 
     [Fact]
@@ -45,19 +48,18 @@ public class PrincipalTests
     {
         var config = new HelperConfig
         {
-            DefaultIncomePrincipal = 70000,
+            DefaultIncomePrincipal = 50000,
             PhonePattern = @"^\d{3}-\d{3}-\d{4}$",
-            DefaultIncomeTeacher = 40000,
-            DefaultIncomeReceptionist = 30000
+            DefaultIncomeTeacher = 30000,
+            DefaultIncomeReceptionist = 10000
         };
 
         Principal.LoadConfig(config);
 
         var p = new Principal("Jane", "Addr", "123-456-7890", null);
-        Assert.Equal(70000, p.Income);
+        Assert.Equal(50000, p.Income);
         Principal.RemovePrincipal(p);
     }
-
 
     [Fact]
     public void RemovePrincipal_RemovesFromList()
