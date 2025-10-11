@@ -4,6 +4,10 @@ using System.Text.Json;
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Tests unitaires pour la classe Teacher.
+/// Vérifie la construction, la validation des entrées, les valeurs par défaut, la suppression et l'affichage.
+/// </summary>
 public class TeacherTests
 {
     [Fact]

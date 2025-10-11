@@ -3,6 +3,10 @@ using SchoolManager;
 using System.Text.Json;
 using System;
 
+/// <summary>
+/// Tests unitaires pour la classe <see cref="Principal"/>.
+/// Vérifie la construction, la validation des entrées, les valeurs par défaut, la suppression et l'affichage.
+/// </summary>
 public class PrincipalTests
 {
     [Fact]
@@ -11,7 +15,7 @@ public class PrincipalTests
         var countBefore = Principal.Principals.Count;
         var p = new Principal("Alice", "Main St", "123", 50000);
         Assert.Equal(countBefore + 1, Principal.Principals.Count);
-        Principal.RemovePrincipal(p); 
+        Principal.RemovePrincipal(p);
     }
 
     [Theory]

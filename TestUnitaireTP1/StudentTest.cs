@@ -5,6 +5,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 
+/// <summary>
+/// Tests unitaires pour la classe Student.
+/// Vérifie la construction, la validation des entrées, les valeurs par défaut, la suppression et l'affichage.
+/// </summary>
 public class StudentTests
 {
     [Fact]

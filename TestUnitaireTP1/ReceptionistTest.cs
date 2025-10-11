@@ -5,6 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
+/// <summary>
+/// Tests unitaires pour la classe Receptionist.
+/// Vérifie la construction, la validation des entrées, les valeurs par défaut, la suppression et l'affichage.
+/// </summary>
 public class ReceptionistTests
 {
     private HelperConfig GetTestConfig() => new HelperConfig
