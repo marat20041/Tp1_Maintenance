@@ -5,5 +5,7 @@
     "MinPhoneLength": 10,
     "MaxPhoneLength": 15,
     "PhonePattern": "^\\+?[0-9\\s\\-\\(\\)]+$",
-    "DefaultIncome": 50000
+    "DefaultIncomePrincipal": 50000,
+    "DefaultIncomeReceptionist": 10000,
+    "DefaultIncomeTeacher": 30000
   }

@@ -38,5 +38,6 @@
     "ReceptionistAddDenied": "The Receptionist details cannot be added or modified now.",
     "PaymentInProgress": "Payments in progress...",
     "UndoPay": "Last payment operation undone.",
-    "UndoRegister": "Last registration operation undone."
+    "UndoRegister": "Last registration operation undone.",
+    "AskPhoneAgain": "Enter phone (digits, spaces, +, -, (, )): "
 }

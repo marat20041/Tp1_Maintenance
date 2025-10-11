@@ -22,65 +22,65 @@ namespace SchoolManager
             Console.WriteLine($"Complaint Raised: {complaint.ComplaintRaised}\n---------");
         }
         
-        private static void AddData()
-        {
-            try
-            {
-                if (!File.Exists("config.json"))
-                {
-                    Console.WriteLine("Configuration file not found.");
-                    return;
-                }
+        // private static void AddData()
+        // {
+        //     try
+        //     {
+        //         if (!File.Exists("config.json"))
+        //         {
+        //             Console.WriteLine("Configuration file not found.");
+        //             return;
+        //         }
 
-                var text = File.ReadAllText("config.json");
-                var members = System.Text.Json.JsonSerializer.Deserialize<List<MemberConfig>>(text);
+        //         var text = File.ReadAllText("config.json");
+        //         var members = System.Text.Json.JsonSerializer.Deserialize<List<MemberConfig>>(text);
 
-                if (members == null)
-                {
-                    Console.WriteLine("No configuration data found.");
-                    return;
-                }
+        //         if (members == null)
+        //         {
+        //             Console.WriteLine("No configuration data found.");
+        //             return;
+        //         }
 
-                foreach (var m in members)
-                {
-                    switch (m.Role)
-                    {
-                        case "Principal":
-                            Principal = new Principal(m.Name, m.Address, m.Phone, m.Income ?? 0);
-                            Console.WriteLine($"Principal loaded: {Principal != null}");
-                            break;
+        //         foreach (var m in members)
+        //         {
+        //             switch (m.Role)
+        //             {
+        //                 case "Principal":
+        //                     Principal = new Principal(m.Name, m.Address, m.Phone, m.Income ?? 0);
+        //                     Console.WriteLine($"Principal loaded: {Principal != null}");
+        //                     break;
 
-                        case "Receptionist":
-                            Receptionist = new Receptionist(m.Name, m.Address, m.Phone, m.Income ?? 0);
-                            Receptionist.ComplaintRaised += handleComplaintRaised;
-                            Console.WriteLine($"Receptionist loaded: {Receptionist != null}");
-                            break;
+        //                 case "Receptionist":
+        //                     Receptionist = new Receptionist(m.Name, m.Address, m.Phone, m.Income ?? 0);
+        //                     Receptionist.ComplaintRaised += handleComplaintRaised;
+        //                     Console.WriteLine($"Receptionist loaded: {Receptionist != null}");
+        //                     break;
 
-                        case "Teacher":
-                            if (string.IsNullOrEmpty(m.Subject))
-                                Console.WriteLine($"Missing subject for teacher {m.Name}");
-                            else
-                                new Teacher(m.Name, m.Address, m.Phone, m.Subject, m.Income ?? 0);
-                            break;
+        //                 case "Teacher":
+        //                     if (string.IsNullOrEmpty(m.Subject))
+        //                         Console.WriteLine($"Missing subject for teacher {m.Name}");
+        //                     else
+        //                         new Teacher(m.Name, m.Address, m.Phone, m.Subject, m.Income ?? 0);
+        //                     break;
 
-                        case "Student":
-                            if (!m.Grade.HasValue)
-                                Console.WriteLine($"Missing grade for student {m.Name}");
-                            else
-                                new Student(m.Name, m.Address, m.Phone, m.Grade.Value);
-                            break;
+        //                 case "Student":
+        //                     if (!m.Grade.HasValue)
+        //                         Console.WriteLine($"Missing grade for student {m.Name}");
+        //                     else
+        //                         new Student(m.Name, m.Address, m.Phone, m.Grade.Value);
+        //                     break;
 
-                        default:
-                            Console.WriteLine($"Unknown role: {m.Role}");
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error reading configuration: {ex.Message}");
-            }
-        }
+        //                 default:
+        //                     Console.WriteLine($"Unknown role: {m.Role}");
+        //                     break;
+        //             }
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine($"Error reading configuration: {ex.Message}");
+        //     }
+        // }
         
         /* 
         * Cette méthode annule la dernière opération de paie enregistrée  
@@ -148,7 +148,7 @@ namespace SchoolManager
             switch (memberType)
             {
                 case 1:
-                    Console.WriteLine(ReferenceText.Get("PrincipalAddDenied"));
+                    Added.CreateAPrincipal();
                     break;
                 case 2:
                     Added.CreateATeacher();
@@ -157,7 +157,7 @@ namespace SchoolManager
                     Added.CreateAStudent();
                     break;
                 case 4:
-                    Console.WriteLine(ReferenceText.Get("ReceptionistAddDenied"));
+                    Added.CreateAReceptionist();
                     break;
 
                 default:
@@ -173,7 +173,7 @@ namespace SchoolManager
             switch (memberType)
             {
                 case 1:
-                    Displayed.Principals(Principal!);
+                    Displayed.Principals();
                     break;
                 case 2:
                     Displayed.Teachers();
@@ -182,7 +182,7 @@ namespace SchoolManager
                     Displayed.Students();
                     break;
                 case 4:
-                    Displayed.Receptionists(Receptionist!);
+                    Displayed.Receptionists();
                     break;
                 default:
                     Displayed.InvalidInput();
@@ -224,7 +224,7 @@ namespace SchoolManager
         */
         public static async Task Main(string[] args)
         {
-            AddData();
+            // AddData();
             Console.WriteLine(ReferenceText.Get("Welcome"));
 
             bool flag = true;

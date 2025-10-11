@@ -5,8 +5,15 @@ namespace SchoolManager
 {
     public class Teacher : SchoolMember, IPayroll
     {
+        private static HelperConfig? _config;
+        public static void LoadConfig(HelperConfig config)
+        {
+            _config = config;
+        }
 
-        public int Income { get; set; }
+
+        public int Income => _income;
+        public int Balance => _balance;
         private int _balance;
         private int _income;
         private string _subject;
@@ -34,7 +41,7 @@ namespace SchoolManager
         private static readonly List<Teacher> _teachers = new List<Teacher>();
         public static IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
 
-        public Teacher(string name, string address, string phone, string subject, int income)
+        public Teacher(string name, string address, string phone, string subject, int? income)
          : base(name, address, phone)
         {
 
@@ -44,7 +51,7 @@ namespace SchoolManager
             if (income < 0)
                 throw new ArgumentOutOfRangeException(nameof(income), ReferenceText.Get("NegativeIncome"));
 
-            _income = income;
+            _income = income ?? _config?.DefaultIncomeTeacher ?? 30000;
             _subject = subject;
             _balance = 0;
 

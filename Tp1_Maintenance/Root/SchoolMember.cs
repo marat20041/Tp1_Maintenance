@@ -36,21 +36,17 @@ namespace SchoolManager
         }
         public string Phone
         {
-            get
-            {
-                return _phone;
-            }
+            get => _phone;
             set
             {
                 var config = ConfigLoader.LoadConfig("networkConfig.json");
-                if (PhoneVerificator.IsValidPhone(value, config))
+                while (!PhoneVerificator.IsValidPhone(value, config))
                 {
-                    _phone = value;
+                    Console.WriteLine(ReferenceText.Get("AskPhoneAgain"));
+                    Console.Write("Enter a valid phone number: ");
+                    value = Console.ReadLine() ?? "";
                 }
-                else
-                {
-                    _phone = "";
-                }
+                _phone = value;
             }
         }
 

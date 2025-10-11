@@ -11,6 +11,13 @@ namespace SchoolManager
 
     public class Receptionist : SchoolMember, IPayroll
     {
+
+        private static HelperConfig? _config;
+        public static void LoadConfig(HelperConfig config)
+        {
+            _config = config;
+        }
+        
         private int _income;
         private int _balance;
 
@@ -19,9 +26,12 @@ namespace SchoolManager
 
         public event EventHandler<ComplaintEventArgs>? ComplaintRaised;
 
-        public Receptionist(string name, string address, string phoneNum, int income) : base(name, address, phoneNum)
+        private static readonly List<Receptionist> _receptionists = new List<Receptionist>();
+        public static IReadOnlyList<Receptionist> Receptionists => _receptionists.AsReadOnly();
+
+        public Receptionist(string name, string address, string phoneNum, int? income) : base(name, address, phoneNum)
         {
-             if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException(ReferenceText.Get("EmptyName"), nameof(name));
 
             if (string.IsNullOrWhiteSpace(address))
@@ -33,8 +43,16 @@ namespace SchoolManager
             if (income < 0)
                 throw new ArgumentOutOfRangeException(nameof(income), ReferenceText.Get("NegativeIncome"));
 
-            _income = income;
+            _income = income ?? _config?.DefaultIncomeReceptionist ?? 10000;
             _balance = 0;
+
+            _receptionists.Add(this);
+        }
+
+
+        public static void RemoveReceptionist(Receptionist receptionist)
+        {
+            _receptionists.Remove(receptionist);
         }
 
         public override string Display()
@@ -43,7 +61,7 @@ namespace SchoolManager
         }
 
         public void Pay()
-        {   
+        {
             try
             {
                 Util.NetworkDelay.PayEntity("Receptionist", Name, ref _balance, _income);
@@ -74,7 +92,7 @@ namespace SchoolManager
         {
             try
             {
-                 ComplaintRaised?.Invoke(this, e);
+                ComplaintRaised?.Invoke(this, e);
             }
             catch (Exception ex)
             {

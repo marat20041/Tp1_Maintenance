@@ -5,5 +5,7 @@ public class HelperConfig
     public int MinPhoneLength { get; set; }
     public int MaxPhoneLength { get; set; }
     public required string PhonePattern { get; set; }
-    public int DefaultIncome { get; set; }
+    public int DefaultIncomePrincipal { get; set; }
+    public int DefaultIncomeReceptionist { get; set; }
+    public int DefaultIncomeTeacher { get; set; }
 }

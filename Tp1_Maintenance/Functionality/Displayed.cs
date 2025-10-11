@@ -3,16 +3,18 @@ using System.Text.Json;
 
 class Displayed
 {
-    public static void Principals(Principal Principal)
+    public static void Principals()
     {
         Console.WriteLine("\nThe Principal's details are:");
-                    Console.WriteLine(Principal?.Display());
+        foreach (Principal principal in Principal.Principals)
+            Console.WriteLine(principal.Display());
     }
 
-    public static void Receptionists(Receptionist Receptionist)
+    public static void Receptionists()
     {
         Console.WriteLine("\nThe Receptionist's details are:");
-                    Console.WriteLine(Receptionist?.Display());
+        foreach (Receptionist receptionist in Receptionist.Receptionists)
+            Console.WriteLine(receptionist.Display());
 
     }
 
