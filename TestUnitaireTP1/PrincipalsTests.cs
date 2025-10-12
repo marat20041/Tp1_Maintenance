@@ -36,7 +36,7 @@ public class PrincipalTests
     [Fact]
     public void Constructor_UsesDefaultIncomeIfNull_FromJsonConfig()
     {
-        var json = File.ReadAllText("helperconfig.json");
+        var json = File.ReadAllText("Resource/HelperConfig.json");
         var config = JsonSerializer.Deserialize<HelperConfig>(json)
                      ?? throw new InvalidOperationException("Config deserialization failed");
 
